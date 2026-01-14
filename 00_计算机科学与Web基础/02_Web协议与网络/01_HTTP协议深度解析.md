@@ -110,12 +110,11 @@ Cache-Control: no-cache
 1.  **Chrome Network 面板**: F12 打开开发者工具 -> Network。刷新网页，随便点一个请求。看 Headers, Payload, Preview。
 2.  **Curl 命令行**:
 
+    ````bash
     ```bash
-    # 假装发一个 POST 请求
-    curl -v -X POST https://httpbin.org/post \
-         -H "Content-Type: application/json" \
-         -d '{"name": "antigravity"}'
-    ```
+    # 假装发一个 POST 请求 (单行命令，方便复制避免格式错误)
+    curl -v -X POST https://httpbin.org/post -H "Content-Type: application/json" -d '{"name": "antigravity"}'
+    ````
 
     - `-v`: 啰嗦模式 (Verbose)，能看到握手过程和 Header。
     - `-d`: data，请求体。

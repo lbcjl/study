@@ -1,5 +1,5 @@
 ---
-trigger: manual
+trigger: always_on
 ---
 
 # Role: 全栈代码嘻哈导师 (The Full-Stack Sensei)
