@@ -1,0 +1,171 @@
+[
+	{
+		"id": "hz-hotel-001",
+		"name": "杭州西湖国宾馆",
+		"city": "杭州",
+		"district": "西湖区",
+		"address": "杨公堤18号",
+		"location": {
+			"lat": 30.2489,
+			"lng": 120.1363
+		},
+		"starRating": 5,
+		"priceRange": {
+			"min": 800,
+			"max": 1500,
+			"currency": "CNY",
+			"unit": "晚"
+		},
+		"rating": 4.8,
+		"reviewCount": 2563,
+		"tags": ["西湖景区", "五星级", "花园式", "历史建筑", "商务"],
+		"facilities": ["免费WiFi", "停车场", "游泳池", "健身房", "餐厅", "会议室"],
+		"images": [
+			"https://picsum.photos/800/600?random=1",
+			"https://picsum.photos/800/600?random=2"
+		],
+		"description": "坐落于西湖西侧的花园式酒店，环境优雅，历史悠久。"
+	},
+	{
+		"id": "hz-hotel-002",
+		"name": "杭州凯悦酒店",
+		"city": "杭州",
+		"district": "上城区",
+		"address": "湖滨路28号",
+		"location": {
+			"lat": 30.2547,
+			"lng": 120.1659
+		},
+		"starRating": 5,
+		"priceRange": {
+			"min": 1200,
+			"max": 2500,
+			"currency": "CNY",
+			"unit": "晚"
+		},
+		"rating": 4.7,
+		"reviewCount": 1892,
+		"tags": ["市中心", "湖景房", "五星级", "商务", "豪华"],
+		"facilities": ["免费WiFi", "停车场", "spa", "健身房", "行政酒廊", "餐厅"],
+		"images": [
+			"https://picsum.photos/800/600?random=3",
+			"https://picsum.photos/800/600?random=4"
+		],
+		"description": "位于市中心湖滨商圈，步行可达西湖，视野开阔。"
+	},
+	{
+		"id": "hz-hotel-003",
+		"name": "杭州如家快捷酒店(西湖店)",
+		"city": "杭州",
+		"district": "西湖区",
+		"address": "北山街68号",
+		"location": {
+			"lat": 30.2598,
+			"lng": 120.1456
+		},
+		"starRating": 3,
+		"priceRange": {
+			"min": 200,
+			"max": 350,
+			"currency": "CNY",
+			"unit": "晚"
+		},
+		"rating": 4.3,
+		"reviewCount": 5621,
+		"tags": ["经济型", "西湖附近", "性价比高", "交通便利"],
+		"facilities": ["免费WiFi", "24小时前台", "空调", "电视"],
+		"images": [
+			"https://picsum.photos/800/600?random=5",
+			"https://picsum.photos/800/600?random=6"
+		],
+		"description": "经济实惠的连锁酒店，距离西湖步行10分钟。"
+	},
+	{
+		"id": "cd-hotel-001",
+		"name": "成都博舍酒店",
+		"city": "成都",
+		"district": "锦江区",
+		"address": "中纱帽街8号",
+		"location": {
+			"lat": 30.6586,
+			"lng": 104.0806
+		},
+		"starRating": 5,
+		"priceRange": {
+			"min": 1500,
+			"max": 3000,
+			"currency": "CNY",
+			"unit": "晚"
+		},
+		"rating": 4.9,
+		"reviewCount": 1234,
+		"tags": ["太古里", "奢华", "设计感", "市中心", "美食"],
+		"facilities": ["免费WiFi", "停车场", "spa", "健身房", "米其林餐厅", "酒吧"],
+		"images": [
+			"https://picsum.photos/800/600?random=7",
+			"https://picsum.photos/800/600?random=8"
+		],
+		"description": "坐落于太古里核心位置，融合川西建筑风格的奢华酒店。"
+	},
+	{
+		"id": "cd-hotel-002",
+		"name": "成都锦江宾馆",
+		"city": "成都",
+		"district": "锦江区",
+		"address": "人民南路二段80号",
+		"location": {
+			"lat": 30.6525,
+			"lng": 104.0693
+		},
+		"starRating": 4,
+		"priceRange": {
+			"min": 500,
+			"max": 900,
+			"currency": "CNY",
+			"unit": "晚"
+		},
+		"rating": 4.5,
+		"reviewCount": 3421,
+		"tags": ["市中心", "老牌宾馆", "商务", "四星级"],
+		"facilities": ["免费WiFi", "停车场", "餐厅", "会议室", "商务中心"],
+		"images": [
+			"https://picsum.photos/800/600?random=9",
+			"https://picsum.photos/800/600?random=10"
+		],
+		"description": "成都知名老牌宾馆，交通便利，服务周到。"
+	},
+	{
+		"id": "bj-hotel-001",
+		"name": "北京瑰丽酒店",
+		"city": "北京",
+		"district": "朝阳区",
+		"address": "建国路83号",
+		"location": {
+			"lat": 39.9093,
+			"lng": 116.4668
+		},
+		"starRating": 5,
+		"priceRange": {
+			"min": 2000,
+			"max": 5000,
+			"currency": "CNY",
+			"unit": "晚"
+		},
+		"rating": 4.9,
+		"reviewCount": 987,
+		"tags": ["CBD", "奢华", "商务", "高端", "国际品牌"],
+		"facilities": [
+			"免费WiFi",
+			"停车场",
+			"spa",
+			"室内泳池",
+			"米其林餐厅",
+			"行政酒廊"
+		],
+		"images": [
+			"https://picsum.photos/800/600?random=11",
+			"https://picsum.photos/800/600?random=12"
+		],
+		"description": "位于北京CBD核心区，顶级奢华酒店体验。"
+	}
+]

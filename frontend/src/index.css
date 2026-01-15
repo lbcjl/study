@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 全局样式 */
+@layer base {
+	body {
+		@apply bg-gradient-to-br from-neutral-50 to-neutral-100 text-neutral-700;
+		@apply font-sans antialiased;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		@apply font-display;
+	}
+}
+
+/* 自定义组件样式 */
+@layer components {
+	.card-hover-effect {
+		@apply transition-all duration-300;
+		@apply hover:shadow-card-hover hover:-translate-y-1;
+	}
+
+	.btn-primary {
+		@apply bg-primary-500 text-white px-6 py-3 rounded-lg;
+		@apply hover:bg-primary-600 transition-colors duration-200;
+		@apply shadow-md hover:shadow-lg;
+	}
+
+	.btn-secondary {
+		@apply bg-white text-primary-600 border-2 border-primary-500 px-6 py-3 rounded-lg;
+		@apply hover:bg-primary-50 transition-colors duration-200;
+	}
+
+	.input-field {
+		@apply w-full px-4 py-3 border-2 border-neutral-200 rounded-lg;
+		@apply focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200;
+		@apply transition-all duration-200;
+	}
+}
+
+/* 工具类 */
+@layer utilities {
+	.text-gradient {
+		@apply bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent;
+	}
+
+	.section-padding {
+		@apply px-4 sm:px-6 lg:px-8 py-8 sm:py-12;
+	}
+}
+
+/* Blob 动画（用于 Landing Page 背景装饰） */
+@keyframes blob {
+	0%,
+	100% {
+		transform: translate(0, 0) scale(1);
+	}
+	33% {
+		transform: translate(30px, -50px) scale(1.1);
+	}
+	66% {
+		transform: translate(-20px, 20px) scale(0.9);
+	}
+}
+
+.animate-blob {
+	animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+	animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+	animation-delay: 4s;
+}

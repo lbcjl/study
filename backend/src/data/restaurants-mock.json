@@ -1,0 +1,254 @@
+[
+	{
+		"id": "hz-rest-001",
+		"name": "楼外楼",
+		"city": "杭州",
+		"cuisine": "杭帮菜",
+		"location": {
+			"lat": 30.2589,
+			"lng": 120.1423
+		},
+		"address": "西湖区孤山路30号",
+		"openingHours": "10:30-14:00, 17:00-20:30",
+		"pricePerPerson": {
+			"min": 120,
+			"max": 200,
+			"currency": "CNY"
+		},
+		"rating": 4.6,
+		"reviewCount": 8934,
+		"tags": ["老字号", "西湖醋鱼", "景区", "杭帮菜"],
+		"images": [
+			"https://picsum.photos/800/600?random=51",
+			"https://picsum.photos/800/600?random=52"
+		],
+		"description": "创建于1848年的杭州老字号，以西湖醋鱼闻名。位于西湖畔，环境优美。",
+		"signature": ["西湖醋鱼", "东坡肉", "龙井虾仁", "叫化童鸡"],
+		"bestTime": "午餐或晚餐，建议预约",
+		"tips": "周末和节假日需提前预订，窗边位置可观西湖"
+	},
+	{
+		"id": "hz-rest-002",
+		"name": "外婆家(湖滨店)",
+		"city": "杭州",
+		"cuisine": "杭帮菜",
+		"location": {
+			"lat": 30.2554,
+			"lng": 120.1689
+		},
+		"address": "上城区平海路124号",
+		"openingHours": "10:30-21:30",
+		"pricePerPerson": {
+			"min": 60,
+			"max": 100,
+			"currency": "CNY"
+		},
+		"rating": 4.5,
+		"reviewCount": 12456,
+		"tags": ["连锁", "性价比", "排队", "家常菜"],
+		"images": [
+			"https://picsum.photos/800/600?random=53",
+			"https://picsum.photos/800/600?random=54"
+		],
+		"description": "杭州知名连锁餐厅，主打家常杭帮菜，价格亲民。",
+		"signature": ["茶香鸡", "麻婆豆腐", "青豆泥", "西湖醋鱼"],
+		"bestTime": "非饭点时间，避免等位",
+		"tips": "高峰期排队严重，可用APP取号"
+	},
+	{
+		"id": "hz-rest-003",
+		"name": "知味观(湖滨店)",
+		"city": "杭州",
+		"cuisine": "点心小吃",
+		"location": {
+			"lat": 30.2561,
+			"lng": 120.1675
+		},
+		"address": "上城区仁和路83号",
+		"openingHours": "07:00-21:00",
+		"pricePerPerson": {
+			"min": 40,
+			"max": 80,
+			"currency": "CNY"
+		},
+		"rating": 4.4,
+		"reviewCount": 9876,
+		"tags": ["老字号", "点心", "小笼包", "早茶"],
+		"images": [
+			"https://picsum.photos/800/600?random=55",
+			"https://picsum.photos/800/600?random=56"
+		],
+		"description": "杭州百年老字号点心店，以猫耳朵、小笼包等点心闻名。",
+		"signature": ["猫耳朵", "鲜肉小笼", "虾爆鳝面", "幸福双"],
+		"bestTime": "早餐或下午茶",
+		"tips": "早餐时段最佳，可品尝新鲜出炉的点心"
+	},
+	{
+		"id": "cd-rest-001",
+		"name": "陈麻婆豆腐(骡马市店)",
+		"city": "成都",
+		"cuisine": "川菜",
+		"location": {
+			"lat": 30.6632,
+			"lng": 104.0761
+		},
+		"address": "青羊区西玉龙街197号",
+		"openingHours": "10:30-14:00, 17:00-21:00",
+		"pricePerPerson": {
+			"min": 60,
+			"max": 100,
+			"currency": "CNY"
+		},
+		"rating": 4.5,
+		"reviewCount": 15234,
+		"tags": ["老字号", "麻婆豆腐", "川菜", "必吃"],
+		"images": [
+			"https://picsum.photos/800/600?random=61",
+			"https://picsum.photos/800/600?random=62"
+		],
+		"description": "创始于1862年的百年老店，麻婆豆腐发源地。",
+		"signature": ["陈麻婆豆腐", "回锅肉", "鱼香肉丝", "夫妻肺片"],
+		"bestTime": "午餐或晚餐",
+		"tips": "必点麻婆豆腐，口味偏重，不吃辣可提前说明"
+	},
+	{
+		"id": "cd-rest-002",
+		"name": "小龙坎火锅(春熙路店)",
+		"city": "成都",
+		"cuisine": "火锅",
+		"location": {
+			"lat": 30.6597,
+			"lng": 104.0814
+		},
+		"address": "锦江区总府路23号",
+		"openingHours": "11:00-23:00",
+		"pricePerPerson": {
+			"min": 80,
+			"max": 150,
+			"currency": "CNY"
+		},
+		"rating": 4.6,
+		"reviewCount": 23456,
+		"tags": ["火锅", "网红", "排队", "麻辣"],
+		"images": [
+			"https://picsum.photos/800/600?random=63",
+			"https://picsum.photos/800/600?random=64"
+		],
+		"description": "成都知名火锅连锁，以麻辣鲜香的锅底著称。",
+		"signature": ["鲜毛肚", "鲜鸭血", "虾滑", "手工面"],
+		"bestTime": "下午茶时段人较少",
+		"tips": "高峰期排队2小时+，建议提前取号或选非饭点"
+	},
+	{
+		"id": "cd-rest-003",
+		"name": "龙抄手(春熙路店)",
+		"city": "成都",
+		"cuisine": "小吃",
+		"location": {
+			"lat": 30.6584,
+			"lng": 104.0823
+		},
+		"address": "锦江区春熙路南段6号",
+		"openingHours": "08:00-21:00",
+		"pricePerPerson": {
+			"min": 30,
+			"max": 60,
+			"currency": "CNY"
+		},
+		"rating": 4.3,
+		"reviewCount": 8765,
+		"tags": ["老字号", "抄手", "小吃", "快餐"],
+		"images": [
+			"https://picsum.photos/800/600?random=65",
+			"https://picsum.photos/800/600?random=66"
+		],
+		"description": "成都著名小吃店，以龙抄手(馄饨)和钟水饺闻名。",
+		"signature": ["龙抄手", "钟水饺", "红油抄手", "担担面"],
+		"bestTime": "早餐或午餐",
+		"tips": "快餐模式，翻台快，适合快速用餐"
+	},
+	{
+		"id": "bj-rest-001",
+		"name": "全聚德烤鸭店(前门店)",
+		"city": "北京",
+		"cuisine": "京菜",
+		"location": {
+			"lat": 39.8986,
+			"lng": 116.3974
+		},
+		"address": "东城区前门大街30号",
+		"openingHours": "10:30-14:00, 17:00-21:00",
+		"pricePerPerson": {
+			"min": 150,
+			"max": 300,
+			"currency": "CNY"
+		},
+		"rating": 4.4,
+		"reviewCount": 34567,
+		"tags": ["老字号", "烤鸭", "京菜", "必吃"],
+		"images": [
+			"https://picsum.photos/800/600?random=71",
+			"https://picsum.photos/800/600?random=72"
+		],
+		"description": "创建于1864年的北京烤鸭老字号，中华老字号品牌。",
+		"signature": ["挂炉烤鸭", "芥末鸭掌", "乌鱼蛋汤"],
+		"bestTime": "午餐或晚餐，建议预约",
+		"tips": "烤鸭需提前预订，可要求师傅现场片鸭表演"
+	},
+	{
+		"id": "bj-rest-002",
+		"name": "海底捞火锅(王府井店)",
+		"city": "北京",
+		"cuisine": "火锅",
+		"location": {
+			"lat": 39.9153,
+			"lng": 116.4102
+		},
+		"address": "东城区王府井大街138号",
+		"openingHours": "10:00-次日02:00",
+		"pricePerPerson": {
+			"min": 100,
+			"max": 180,
+			"currency": "CNY"
+		},
+		"rating": 4.7,
+		"reviewCount": 45678,
+		"tags": ["火锅", "服务好", "连锁", "宵夜"],
+		"images": [
+			"https://picsum.photos/800/600?random=73",
+			"https://picsum.photos/800/600?random=74"
+		],
+		"description": "以优质服务著称的连锁火锅品牌，等位时可享受多种免费服务。",
+		"signature": ["手打虾滑", "毛肚", "肥牛", "捞派豆花"],
+		"bestTime": "下午茶时段或深夜",
+		"tips": "高峰期等位时间长，但有美甲、零食等免费服务"
+	},
+	{
+		"id": "bj-rest-003",
+		"name": "护国寺小吃(护国寺总店)",
+		"city": "北京",
+		"cuisine": "小吃",
+		"location": {
+			"lat": 39.9342,
+			"lng": 116.3701
+		},
+		"address": "西城区护国寺大街93号",
+		"openingHours": "05:30-21:00",
+		"pricePerPerson": {
+			"min": 25,
+			"max": 50,
+			"currency": "CNY"
+		},
+		"rating": 4.2,
+		"reviewCount": 6543,
+		"tags": ["老字号", "小吃", "早餐", "地道"],
+		"images": [
+			"https://picsum.photos/800/600?random=75",
+			"https://picsum.photos/800/600?random=76"
+		],
+		"description": "北京传统小吃老字号,汇集豆汁、焦圈、卤煮等地道美食。",
+		"signature": ["豆汁", "焦圈", "糖火烧", "驴打滚"],
+		"bestTime": "早餐时段",
+		"tips": "豆汁是特色但口味独特，初次尝试可买小份"
+	}
+]

@@ -1,0 +1,213 @@
+[
+	{
+		"id": "hz-attr-001",
+		"name": "西湖",
+		"city": "杭州",
+		"category": "自然风光",
+		"location": {
+			"lat": 30.2547,
+			"lng": 120.1467
+		},
+		"address": "西湖区西湖风景名胜区",
+		"openingHours": "全天开放",
+		"ticketPrice": {
+			"adult": 0,
+			"child": 0,
+			"currency": "CNY",
+			"note": "免费开放"
+		},
+		"rating": 4.9,
+		"reviewCount": 125634,
+		"visitDuration": "3-4小时",
+		"tags": ["5A景区", "世界遗产", "必去", "拍照", "休闲"],
+		"images": [
+			"https://picsum.photos/800/600?random=21",
+			"https://picsum.photos/800/600?random=22",
+			"https://picsum.photos/800/600?random=23"
+		],
+		"description": "杭州的标志性景点，中国十大风景名胜之一。包含断桥残雪、苏堤春晓、雷峰夕照等著名景观。",
+		"highlights": ["断桥残雪", "苏堤春晓", "三潭印月", "雷峰塔"],
+		"bestTime": "春秋两季",
+		"tips": "建议租借自行车环湖游览，避开节假日高峰期"
+	},
+	{
+		"id": "hz-attr-002",
+		"name": "灵隐寺",
+		"city": "杭州",
+		"category": "历史文化",
+		"location": {
+			"lat": 30.2426,
+			"lng": 120.0967
+		},
+		"address": "西湖区灵隐路法云弄1号",
+		"openingHours": "07:00-18:00",
+		"ticketPrice": {
+			"adult": 75,
+			"child": 37.5,
+			"currency": "CNY",
+			"note": "含飞来峰景区30元+灵隐寺香花券45元"
+		},
+		"rating": 4.7,
+		"reviewCount": 45621,
+		"visitDuration": "2-3小时",
+		"tags": ["寺庙", "历史", "文化", "祈福"],
+		"images": [
+			"https://picsum.photos/800/600?random=24",
+			"https://picsum.photos/800/600?random=25"
+		],
+		"description": "中国佛教著名寺院，始建于东晋，拥有1700多年历史。寺内古木参天，环境清幽。",
+		"highlights": ["飞来峰造像", "大雄宝殿", "五百罗汉堂"],
+		"bestTime": "清晨或傍晚，游客较少",
+		"tips": "进入大殿需另购香花券，建议提前网上预约"
+	},
+	{
+		"id": "hz-attr-003",
+		"name": "雷峰塔",
+		"city": "杭州",
+		"category": "历史文化",
+		"location": {
+			"lat": 30.2318,
+			"lng": 120.1489
+		},
+		"address": "西湖区南山路15号",
+		"openingHours": "08:00-19:00 (夏季延长至20:00)",
+		"ticketPrice": {
+			"adult": 40,
+			"child": 20,
+			"currency": "CNY",
+			"note": "学生凭证半价"
+		},
+		"rating": 4.5,
+		"reviewCount": 32145,
+		"visitDuration": "1-2小时",
+		"tags": ["历史", "白蛇传", "登高", "夜景"],
+		"images": [
+			"https://picsum.photos/800/600?random=26",
+			"https://picsum.photos/800/600?random=27"
+		],
+		"description": "因白蛇传而闻名的古塔，现为重建塔体。登顶可俯瞰西湖全景。",
+		"highlights": ["塔顶俯瞰西湖", "白蛇传文化展示", "夜景灯光秀"],
+		"bestTime": "傍晚时分，可看日落和夜景",
+		"tips": "有电梯直达顶层，老人小孩也方便游览"
+	},
+	{
+		"id": "cd-attr-001",
+		"name": "武侯祠",
+		"city": "成都",
+		"category": "历史文化",
+		"location": {
+			"lat": 30.6459,
+			"lng": 104.0492
+		},
+		"address": "武侯区武侯祠大街231号",
+		"openingHours": "08:00-18:00",
+		"ticketPrice": {
+			"adult": 60,
+			"child": 30,
+			"currency": "CNY",
+			"note": "含锦里古街免费"
+		},
+		"rating": 4.6,
+		"reviewCount": 56234,
+		"visitDuration": "2-3小时",
+		"tags": ["三国文化", "历史", "园林", "锦里"],
+		"images": [
+			"https://picsum.photos/800/600?random=31",
+			"https://picsum.photos/800/600?random=32"
+		],
+		"description": "纪念诸葛亮的祠堂，中国唯一君臣合祀祠庙。毗邻锦里古街。",
+		"highlights": ["三国文化", "红墙竹影", "锦里古街"],
+		"bestTime": "春秋季节",
+		"tips": "可与锦里古街一起游览，建议游览2-3小时"
+	},
+	{
+		"id": "cd-attr-002",
+		"name": "大熊猫繁育研究基地",
+		"city": "成都",
+		"category": "动物园",
+		"location": {
+			"lat": 30.7351,
+			"lng": 104.1507
+		},
+		"address": "成华区外北熊猫大道1375号",
+		"openingHours": "07:30-18:00",
+		"ticketPrice": {
+			"adult": 55,
+			"child": 27,
+			"currency": "CNY",
+			"note": "6岁以下儿童免费"
+		},
+		"rating": 4.8,
+		"reviewCount": 89562,
+		"visitDuration": "3-4小时",
+		"tags": ["亲子", "动物", "大熊猫", "必去"],
+		"images": [
+			"https://picsum.photos/800/600?random=33",
+			"https://picsum.photos/800/600?random=34"
+		],
+		"description": "世界著名的大熊猫迁地保护基地，可近距离观看大熊猫。",
+		"highlights": ["熊猫幼儿园", "月亮产房", "太阳产房"],
+		"bestTime": "早上8-10点，熊猫最活跃",
+		"tips": "务必早去！熊猫上午最活跃，下午都在睡觉"
+	},
+	{
+		"id": "bj-attr-001",
+		"name": "故宫博物院",
+		"city": "北京",
+		"category": "历史文化",
+		"location": {
+			"lat": 39.9163,
+			"lng": 116.3972
+		},
+		"address": "东城区景山前街4号",
+		"openingHours": "08:30-17:00 (周一闭馆)",
+		"ticketPrice": {
+			"adult": 60,
+			"child": 0,
+			"currency": "CNY",
+			"note": "旺季(4-10月)60元，淡季40元，需提前预约"
+		},
+		"rating": 4.9,
+		"reviewCount": 234567,
+		"visitDuration": "4-6小时",
+		"tags": ["5A景区", "世界遗产", "历史", "必去", "建筑"],
+		"images": [
+			"https://picsum.photos/800/600?random=41",
+			"https://picsum.photos/800/600?random=42"
+		],
+		"description": "世界上现存规模最大、保存最完整的木质结构古建筑群。",
+		"highlights": ["太和殿", "御花园", "珍宝馆", "钟表馆"],
+		"bestTime": "春秋季节，避开节假日",
+		"tips": "必须提前官网实名预约！建议租讲解器或请导游"
+	},
+	{
+		"id": "bj-attr-002",
+		"name": "长城(八达岭)",
+		"city": "北京",
+		"category": "自然风光",
+		"location": {
+			"lat": 40.3593,
+			"lng": 116.0146
+		},
+		"address": "延庆区八达岭镇",
+		"openingHours": "06:30-19:00",
+		"ticketPrice": {
+			"adult": 40,
+			"child": 20,
+			"currency": "CNY",
+			"note": "旺季40元，淡季35元"
+		},
+		"rating": 4.7,
+		"reviewCount": 156234,
+		"visitDuration": "4-5小时",
+		"tags": ["世界遗产", "必去", "登高", "历史"],
+		"images": [
+			"https://picsum.photos/800/600?random=43",
+			"https://picsum.photos/800/600?random=44"
+		],
+		"description": "中国古代伟大的军事防御工程，不到长城非好汉。",
+		"highlights": ["北八楼", "好汉坡", "烽火台"],
+		"bestTime": "春秋季节，天气晴朗时",
+		"tips": "体力有限可乘缆车，穿舒适的运动鞋，带足水"
+	}
+]
