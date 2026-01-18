@@ -174,6 +174,7 @@ export class LangChainService {
 			)
 
 			if (poiInfo) {
+				console.log('--- Debug POI Info Injection ---', poiInfo)
 				finalSystemPrompt = finalSystemPrompt.replace('{poi_info}', poiInfo)
 			} else {
 				// 如果没有POI数据，明确警告AI

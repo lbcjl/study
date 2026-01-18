@@ -98,13 +98,29 @@ export class GaodeService {
 			}
 
 			// 2. 基于核心区域搜索美食和酒店
-			// 如果锁定了区域，就搜 "厦门思明区美食"，否则还是搜 "厦门美食"
-			const searchArea = district ? `${city}${district}` : city
+			// 如果锁定了区域，就搜 "厦门 思明区 美食" (加空格)，否则还是搜 "厦门 美食"
+			const searchArea = district ? `${city} ${district}` : city
 
-			const [foods, hotels] = await Promise.all([
+			let [foods, hotels] = await Promise.all([
 				this.searchPOI('美食', searchArea, '050000'), // 050000 是餐饮服务
 				this.searchPOI('酒店', searchArea, '100000'), // 100000 是住宿服务
 			])
+
+			// ⚠️ 降级策略：如果指定区域没搜到，尝试全市搜索（防止因区域关键词导致颗粒无收，引发AI幻觉）
+			if (district && (foods.length === 0 || hotels.length === 0)) {
+				this.logger.warn(`在 [${district}] 未搜到充足数据，降级为全市搜索...`)
+				const [cityFoods, cityHotels] = await Promise.all([
+					foods.length === 0
+						? this.searchPOI('美食', city, '050000')
+						: Promise.resolve([]),
+					hotels.length === 0
+						? this.searchPOI('酒店', city, '100000')
+						: Promise.resolve([]),
+				])
+
+				if (foods.length === 0) foods = cityFoods
+				if (hotels.length === 0) hotels = cityHotels
+			}
 
 			// 3. 格式化数据为 Markdown 列表供 AI 阅读
 			let context = `\n**【真实数据参考】高德地图为您找到 ${city}${district ? `(${district})` : ''} 的以下真实地点（请优先从中选择）：**\n`
