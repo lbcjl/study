@@ -33,12 +33,40 @@
 	justify-content: center;
 	font-weight: 800;
 	font-family: var(--font-display);
+	flex-shrink: 0;
+}
+
+.day-title-section {
+	flex: 1;
+	min-width: 0;
 }
 
 .day-header h3 {
-	margin: 0;
+	margin: 0 0 4px 0;
 	font-size: 1.1rem;
 	color: var(--color-text-main);
+}
+
+.day-meta {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.weather-tag,
+.cost-tag {
+	font-size: 0.75rem;
+	padding: 2px 8px;
+	border-radius: 12px;
+	background: rgba(59, 130, 246, 0.1);
+	color: var(--color-primary);
+	font-weight: 500;
+	white-space: nowrap;
+}
+
+.cost-tag {
+	background: rgba(34, 197, 94, 0.1);
+	color: #16a34a;
 }
 
 .day-timeline {

@@ -5,6 +5,8 @@ import { mapApi } from '../services/mapApi'
 export interface DayItinerary {
 	day: string
 	locations: Location[]
+	weather?: string // 天气信息
+	dailyCost?: number // 每日花销总计
 }
 
 /**
