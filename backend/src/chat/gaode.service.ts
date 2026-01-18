@@ -54,11 +54,11 @@ export class GaodeService {
 					keywords: keywords,
 					city: city,
 					types: type,
-					citylimit: true, // 仅在指定城市内搜索
+					citylimit: true,
 					output: 'json',
-					offset: 10, // 返回结果数量
+					offset: 10,
 					page: 1,
-					extensions: 'all', // 返回丰富信息(评分等)
+					extensions: 'all',
 				},
 			})
 
@@ -97,27 +97,30 @@ export class GaodeService {
 			if (sights.length > 0) {
 				context += `\n🏞️ **推荐景点**：\n`
 				sights.slice(0, 8).forEach((p) => {
-					const rating = p.biz_ext?.rating ? `评分:${p.biz_ext.rating}` : ''
-					const cost = p.biz_ext?.cost ? `门票:¥${p.biz_ext.cost}` : ''
-					context += `- **${p.name}** (${p.address}) ${rating} ${cost}\n`
+					const rating = p.biz_ext?.rating ? ` / 评分:${p.biz_ext.rating}` : ''
+					const cost = p.biz_ext?.cost ? ` / 门票:¥${p.biz_ext.cost}` : ''
+					const tel = p.tel ? ` / 电话:${p.tel}` : ''
+					context += `- **${p.name}** (${p.address})${rating}${cost}${tel}\n`
 				})
 			}
 
 			if (foods.length > 0) {
 				context += `\n🥡 **推荐餐厅**：\n`
 				foods.slice(0, 5).forEach((p) => {
-					const rating = p.biz_ext?.rating ? `评分:${p.biz_ext.rating}` : ''
-					const cost = p.biz_ext?.cost ? `人均:¥${p.biz_ext.cost}` : ''
-					context += `- **${p.name}** (${p.address}) ${rating} ${cost}\n`
+					const rating = p.biz_ext?.rating ? ` / 评分:${p.biz_ext.rating}` : ''
+					const cost = p.biz_ext?.cost ? ` / 人均:¥${p.biz_ext.cost}` : ''
+					const tel = p.tel ? ` / 电话:${p.tel}` : ''
+					context += `- **${p.name}** (${p.address})${rating}${cost}${tel}\n`
 				})
 			}
 
 			if (hotels.length > 0) {
 				context += `\n🏨 **推荐酒店**：\n`
 				hotels.slice(0, 5).forEach((p) => {
-					const rating = p.biz_ext?.rating ? `评分:${p.biz_ext.rating}` : ''
-					const cost = p.biz_ext?.cost ? `参考价:¥${p.biz_ext.cost}` : ''
-					context += `- **${p.name}** (${p.address}) ${rating} ${cost}\n`
+					const rating = p.biz_ext?.rating ? ` / 评分:${p.biz_ext.rating}` : ''
+					const cost = p.biz_ext?.cost ? ` / 参考价:¥${p.biz_ext.cost}` : ''
+					const tel = p.tel ? ` / 电话:${p.tel}` : ''
+					context += `- **${p.name}** (${p.address})${rating}${cost}${tel}\n`
 				})
 			}
 
