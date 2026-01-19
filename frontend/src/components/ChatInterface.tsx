@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState, useMemo } from 'react'
 import { useChat } from '../hooks/useChat'
+import { Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
+import Avatar from './Avatar'
 import MessageBubble from './MessageBubble'
 import InputBox from './InputBox'
 import Toast from './Toast'
@@ -9,6 +12,7 @@ import { HistorySidebar } from './HistorySidebar'
 import './ChatInterface.css'
 
 export default function ChatInterface() {
+	const { user } = useAuth()
 	const {
 		conversation,
 		isLoading,
@@ -122,17 +126,33 @@ export default function ChatInterface() {
 							</svg>
 						</button>
 						<div className='text-2xl'>✈️</div>
-						<div>
+						{/* <div>
 							<h1>智能旅游规划</h1>
 							<p className='text-sm text-muted'>AI Travel Companion</p>
-						</div>
+						</div> */}
 					</div>
-					{conversation && (
-						<button onClick={startNewConversation} className='new-chat-btn'>
-							<span className='text-lg'>+</span>{' '}
-							<span className='btn-text'>新对话</span>
-						</button>
-					)}
+					<div className='flex items-center gap-2'>
+						{conversation && (
+							<button onClick={startNewConversation} className='new-chat-btn'>
+								<span className='text-lg'>+</span>{' '}
+								<span className='btn-text'>新对话</span>
+							</button>
+						)}
+						{user ? (
+							<Link to='/profile' style={{ textDecoration: 'none' }}>
+								<div className='flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity'>
+									{/* <span className='text-sm font-medium text-slate-600 hidden md:block'>
+										{user.nickname}
+									</span> */}
+									<Avatar name={user.nickname} size='md' />
+								</div>
+							</Link>
+						) : (
+							<Link to='/login' className='profile-btn glass-btn' title='登录'>
+								登录
+							</Link>
+						)}
+					</div>
 				</header>
 
 				<div className='messages-area'>

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import { useAuth, User } from '../context/AuthContext'
+import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import Avatar from '../components/Avatar'
 import './Auth.css' // Reuse basic layout styles
 
 /* Specific styles for profile can go here or inline given simplicity */
@@ -88,7 +89,7 @@ export default function Profile() {
 			// For now, let's assume updateProfile endpoint handles preferences.
 			// If we want to update nickname, we might need to adjust backend.
 
-			const res = await axios.put('/api/auth/profile', payload)
+			await axios.put('/api/auth/profile', payload)
 
 			// Update local context
 			updateUser({ ...user!, nickname, preferences })
@@ -155,6 +156,30 @@ export default function Profile() {
 				)}
 
 				<div className='auth-form'>
+					{/* Header with Avatar */}
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							marginBottom: '20px',
+						}}
+					>
+						<Avatar name={nickname || user?.nickname} size='xl' />
+						<div
+							style={{
+								marginTop: '10px',
+								fontSize: '1.2rem',
+								fontWeight: 'bold',
+							}}
+						>
+							{nickname || user?.nickname}
+						</div>
+						<div style={{ color: '#64748b', fontSize: '0.9rem' }}>
+							{user?.email}
+						</div>
+					</div>
+
 					{/* Basic Info */}
 					<div style={sectionStyle}>
 						<h3 style={{ marginBottom: '15px', color: '#0f172a' }}>基本信息</h3>
@@ -192,16 +217,47 @@ export default function Profile() {
 
 						<div className='form-group'>
 							<label style={labelStyle}>预算范围偏好</label>
-							<select
-								className='form-input'
-								value={budgetRange}
-								onChange={(e) => setBudgetRange(e.target.value)}
-							>
-								<option value='不限'>不限</option>
-								<option value='穷游'>穷游 (高性价比)</option>
-								<option value='舒适'>舒适 (中端酒店/餐饮)</option>
-								<option value='豪华'>豪华 (五星级/高端体验)</option>
-							</select>
+							<div className='grid grid-cols-2 gap-3'>
+								{[
+									{
+										value: '不限',
+										label: '不限',
+										icon: '💸',
+										desc: '灵活安排',
+									},
+									{
+										value: '穷游',
+										label: '穷游',
+										icon: '🎒',
+										desc: '高性价比',
+									},
+									{
+										value: '舒适',
+										label: '舒适',
+										icon: '🏨',
+										desc: '中端酒店/餐饮',
+									},
+									{
+										value: '豪华',
+										label: '豪华',
+										icon: '💎',
+										desc: '五星级/高端体验',
+									},
+								].map((opt) => (
+									<button
+										key={opt.value}
+										type='button'
+										onClick={() => setBudgetRange(opt.value)}
+										className={`budget-card ${budgetRange === opt.value ? 'active' : ''}`}
+									>
+										<span className='text-2xl'>{opt.icon}</span>
+										<div className='text-left'>
+											<div className='font-bold text-sm'>{opt.label}</div>
+											<div className='text-xs opacity-70'>{opt.desc}</div>
+										</div>
+									</button>
+								))}
+							</div>
 						</div>
 
 						<div className='form-group' style={{ marginTop: '15px' }}>

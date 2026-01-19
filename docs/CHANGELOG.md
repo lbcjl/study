@@ -449,3 +449,8 @@
     - 🧩 **Re-plan Button [Removed]**: 应用户要求移除显式按钮，完全回归自然语言交互（如“换个酒店”、“行程太赶了”）。
     - 📝 **Enhanced Logging**: 后端控制台现在会智能提取并打印“出发地”、“预算”等关键意图信息，方便调试。
     - 🔍 **Tavily Search Integrated**: 集成了高级搜索工具 Tavily，配置 API Key 后自动替代 DuckDuckGo，提供更稳定快速的实时信息检索。
+
+## [2026-01-19 16:45] CSS 兼容性修复
+
+- **Fix**: 在 `Auth.css` 中为 `background-clip` 添加标准属性。
+- **Reason**: 修复 Linter 警告 "还定义标准属性“background-clip”以实现兼容性"，确保在非 Webkit 浏览器中的潜在兼容性。

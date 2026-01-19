@@ -17,4 +17,16 @@ export default defineConfig({
 			},
 		},
 	},
+	build: {
+		rollupOptions: {
+			output: {
+				manualChunks: {
+					'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+					'markdown-libs': ['react-markdown', 'remark-gfm'],
+					'pdf-libs': ['html2canvas', 'jspdf'],
+				},
+			},
+		},
+		chunkSizeWarningLimit: 1000,
+	},
 })
