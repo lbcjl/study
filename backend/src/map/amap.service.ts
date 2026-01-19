@@ -86,6 +86,49 @@ export class AmapService {
 	}
 
 	/**
+	 * 关键字搜索 (Place Text Search)
+	 * 比地理编码更宽容，适合模糊查询
+	 */
+	async textSearch(
+		keyword: string,
+		city?: string,
+	): Promise<GeoCodeResult | null> {
+		try {
+			const params: any = {
+				key: this.apiKey,
+				keywords: keyword,
+				citylimit: !!city,
+				output: 'json',
+				offset: 1, // 只取第一个最匹配的
+				page: 1,
+				extensions: 'base',
+			}
+			if (city) {
+				params.city = city
+			}
+
+			const response = await this.client.get('/v3/place/text', { params })
+
+			if (response.data.status === '1' && response.data.pois?.length > 0) {
+				const poi = response.data.pois[0]
+				const [lng, lat] = poi.location.split(',').map(Number)
+
+				return {
+					name: poi.name,
+					address: poi.address || poi.name,
+					location: poi.location,
+					lat,
+					lng,
+				}
+			}
+			return null
+		} catch (error) {
+			this.logger.error(`关键字搜索失败: ${keyword}`, error)
+			return null
+		}
+	}
+
+	/**
 	 * 批量地理编码
 	 */
 	async batchGeocode(
@@ -131,22 +174,31 @@ export class AmapService {
 				result = await this.geocode(location.address, city)
 			}
 
-			// 3. 如果地址失败或无效，尝试使用名称
-			if (!result && location.name && !isInvalidName(location.name)) {
-				this.logger.log(`地址地理编码失败，尝试使用名称: ${location.name}`)
-				result = await this.geocode(location.name, city)
-			}
-
 			if (result) {
 				results.push({
 					...result,
-					name: location.name, // 确保返回的名称是原始名称
-					// 如果地址是空的（用名字查到的），可以考虑回填一个地址，但这里暂时保留解析结果的地址
+					name: location.name,
 				})
 			} else {
-				this.logger.warn(
-					`无法获取地址坐标: ${location.name} - ${location.address}`,
+				// 4. [Search Strategy] 如果精准地理编码全失败，尝试使用“关键字搜索”(Place Text Search)
+				this.logger.log(
+					`精准地理编码失败，尝试使用关键字搜索(Place Search): ${location.name} in ${city}`,
 				)
+				const searchResult = await this.textSearch(location.name, city)
+
+				if (searchResult) {
+					results.push({
+						...searchResult,
+						name: location.name,
+					})
+					this.logger.log(
+						`关键字搜索成功: ${location.name} -> ${searchResult.location}`,
+					)
+				} else {
+					this.logger.warn(
+						`无法获取地址坐标 (All methods failed): ${location.name} - ${location.address}`,
+					)
+				}
 			}
 
 			// 避免频繁调用API

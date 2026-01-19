@@ -14,7 +14,7 @@ export class ChatService {
 		private conversationRepo: Repository<Conversation>,
 		@InjectRepository(Message)
 		private messageRepo: Repository<Message>,
-		private langChainService: LangChainService
+		private langChainService: LangChainService,
 	) {}
 
 	/**
@@ -25,7 +25,7 @@ export class ChatService {
 	 */
 	async sendMessageStream(
 		conversationId: string | null,
-		userMessage: string
+		userMessage: string,
 	): Promise<{
 		stream: AsyncGenerator<string>
 		conversationId: string
@@ -87,7 +87,7 @@ export class ChatService {
 				})
 				await this.messageRepo.save(assistantMsg)
 				this.logger.log(
-					`流式响应完成，已保存完整消息。长度: ${fullContent.length}`
+					`流式响应完成，已保存完整消息。长度: ${fullContent.length}`,
 				)
 			},
 		}
@@ -98,7 +98,7 @@ export class ChatService {
 	 */
 	async sendMessage(
 		conversationId: string | null,
-		userMessage: string
+		userMessage: string,
 	): Promise<{ conversation: Conversation; assistantMessage: string }> {
 		let conversation: Conversation
 
@@ -199,6 +199,14 @@ export class ChatService {
 			throw new NotFoundException(`会话 ${id} 不存在`)
 		}
 		this.logger.log(`删除会话: ${id}`)
+	}
+
+	/**
+	 * 清空所有会话
+	 */
+	async clearAllConversations(): Promise<void> {
+		await this.conversationRepo.clear()
+		this.logger.log('已清空所有会话')
 	}
 
 	/**

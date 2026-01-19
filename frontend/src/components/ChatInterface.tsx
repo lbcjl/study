@@ -5,11 +5,18 @@ import InputBox from './InputBox'
 import Toast from './Toast'
 import ItineraryPanel from './ItineraryPanel'
 import LoadingModal from './LoadingModal'
+import { HistorySidebar } from './HistorySidebar'
 import './ChatInterface.css'
 
 export default function ChatInterface() {
-	const { conversation, isLoading, error, sendMessage, startNewConversation } =
-		useChat()
+	const {
+		conversation,
+		isLoading,
+		error,
+		sendMessage,
+		startNewConversation,
+		loadConversation,
+	} = useChat()
 	const messagesEndRef = useRef<HTMLDivElement>(null)
 	const [showToast, setShowToast] = useState(false)
 
@@ -63,9 +70,30 @@ export default function ChatInterface() {
 		}
 	}, [latestItineraryContent])
 
+	// Sidebar State
+	const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+
+	// Close sidebar when conversation loads (on mobile useful)
+	useEffect(() => {
+		if (window.innerWidth < 768) {
+			setIsSidebarOpen(false)
+		}
+	}, [conversation?.id])
+
 	return (
 		<div className='chat-layout'>
 			<LoadingModal isOpen={isLoading} />
+
+			<HistorySidebar
+				isOpen={isSidebarOpen}
+				onClose={() => setIsSidebarOpen(false)}
+				onSelectConversation={(conv) => loadConversation(conv.id)}
+				onNewChat={() => {
+					startNewConversation()
+					setIsSidebarOpen(false)
+				}}
+				currentConversationId={conversation?.id}
+			/>
 
 			{/* Left Panel: Glassmorphism Chat Area */}
 			<div
@@ -73,6 +101,26 @@ export default function ChatInterface() {
 			>
 				<header className='chat-header'>
 					<div className='flex items-center gap-3'>
+						<button
+							className='menu-btn'
+							onClick={() => setIsSidebarOpen(true)}
+							title='历史记录'
+						>
+							<svg
+								width='20'
+								height='20'
+								viewBox='0 0 24 24'
+								fill='none'
+								stroke='currentColor'
+								strokeWidth='2'
+								strokeLinecap='round'
+								strokeLinejoin='round'
+							>
+								<line x1='3' y1='12' x2='21' y2='12'></line>
+								<line x1='3' y1='6' x2='21' y2='6'></line>
+								<line x1='3' y1='18' x2='21' y2='18'></line>
+							</svg>
+						</button>
 						<div className='text-2xl'>✈️</div>
 						<div>
 							<h1>智能旅游规划</h1>

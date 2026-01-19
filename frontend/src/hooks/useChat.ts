@@ -72,8 +72,8 @@ export function useChat() {
 					(msg, index, arr) =>
 						// 去重：过滤掉临时用户消息的重复
 						arr.findIndex(
-							(m) => m.content === msg.content && m.role === msg.role
-						) === index
+							(m) => m.content === msg.content && m.role === msg.role,
+						) === index,
 				),
 				createdAt: response.conversation.createdAt,
 				updatedAt: response.conversation.updatedAt,
@@ -104,11 +104,26 @@ export function useChat() {
 		setError(null)
 	}
 
+	const loadConversation = async (id: string) => {
+		setIsLoading(true)
+		setError(null)
+		try {
+			const data = await chatApi.getConversation(id)
+			setConversation(data)
+		} catch (err) {
+			setError('无法加载会话记录')
+			console.error(err)
+		} finally {
+			setIsLoading(false)
+		}
+	}
+
 	return {
 		conversation,
 		isLoading,
 		error,
 		sendMessage,
 		startNewConversation,
+		loadConversation,
 	}
 }

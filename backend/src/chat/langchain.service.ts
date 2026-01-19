@@ -93,7 +93,8 @@ export class LangChainService {
 例如：
 \`<!-- DESTINATION_CITY: 上海 -->\`
 \`<!-- DESTINATION_CITY: 北京 -->\`
-如果是跨城市旅行，请填写主要目的地或第一站城市。**这不应该显示给用户，但对生成地图至关重要。**`
+如果是跨城市旅行，请填写主要目的地或第一站城市。**这不应该显示给用户，但对生成地图至关重要。**
+`
 
 	constructor(
 		private configService: ConfigService,

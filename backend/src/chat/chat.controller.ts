@@ -32,12 +32,12 @@ export class ChatController {
 	@HttpCode(HttpStatus.OK)
 	async sendMessage(@Body() dto: SendMessageDto) {
 		this.logger.log(
-			`收到消息: 会话=${dto.conversationId || '新会话'}, 内容="${dto.content.substring(0, 50)}..."`
+			`收到消息: 会话=${dto.conversationId || '新会话'}, 内容="${dto.content.substring(0, 50)}..."`,
 		)
 
 		const result = await this.chatService.sendMessage(
 			dto.conversationId || null,
-			dto.content
+			dto.content,
 		)
 
 		return {
@@ -54,14 +54,14 @@ export class ChatController {
 	@Post('stream')
 	async sendMessageStream(@Body() dto: SendMessageDto, @Res() res: Response) {
 		this.logger.log(
-			`收到流式请求: 会话=${dto.conversationId || '新会话'}, 内容="${dto.content.substring(0, 50)}..."`
+			`收到流式请求: 会话=${dto.conversationId || '新会话'}, 内容="${dto.content.substring(0, 50)}..."`,
 		)
 
 		try {
 			const { stream, conversationId, onComplete } =
 				await this.chatService.sendMessageStream(
 					dto.conversationId || null,
-					dto.content
+					dto.content,
 				)
 
 			// 设置响应头，告诉客户端这是一个流
@@ -103,6 +103,17 @@ export class ChatController {
 	@Get(':id')
 	async getConversation(@Param('id') id: string) {
 		return this.chatService.getConversation(id)
+	}
+
+	/**
+	 * 清空所有会话
+	 * DELETE /api/chat/conversations
+	 * 必须放在 :id 之前，否则会被 :id 路由拦截
+	 */
+	@Delete('conversations')
+	@HttpCode(HttpStatus.NO_CONTENT)
+	async deleteAllConversations() {
+		await this.chatService.clearAllConversations()
 	}
 
 	/**

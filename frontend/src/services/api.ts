@@ -29,7 +29,7 @@ export const chatApi = {
 	// 发送消息 (流式)
 	async sendMessageStream(
 		data: SendMessageRequest,
-		onChunk: (chunk: string) => void
+		onChunk: (chunk: string) => void,
 	): Promise<SendMessageResponse> {
 		const response = await fetch('/api/chat/stream', {
 			method: 'POST',
@@ -90,5 +90,10 @@ export const chatApi = {
 	// 删除会话
 	async deleteConversation(id: string): Promise<void> {
 		await api.delete(`/chat/${id}`)
+	},
+
+	// 清空所有会话
+	async deleteAllConversations(): Promise<void> {
+		await api.delete('/chat/conversations')
 	},
 }

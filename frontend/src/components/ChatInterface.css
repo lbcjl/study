@@ -48,6 +48,30 @@
 	letter-spacing: -0.02em;
 }
 
+.menu-btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 12px;
+	background: white;
+	border: 1px solid rgba(0, 0, 0, 0.05);
+	color: var(--text-secondary);
+	cursor: pointer;
+	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	box-shadow: var(--shadow-sm);
+	margin-right: 4px;
+}
+
+.menu-btn:hover {
+	background: var(--primary-color);
+	color: white;
+	border-color: transparent;
+	transform: translateY(-2px);
+	box-shadow: var(--shadow-md);
+}
+
 .new-chat-btn {
 	display: flex;
 	align-items: center;
