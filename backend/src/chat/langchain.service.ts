@@ -9,6 +9,8 @@ import {
 import { WeatherService } from './weather.service'
 import { GaodeService } from './gaode.service'
 
+import { DuckDuckGoSearch } from '@langchain/community/tools/duckduckgo_search'
+
 export interface LangChainMessage {
 	role: 'system' | 'user' | 'assistant'
 	content: string
@@ -31,6 +33,8 @@ export class LangChainService {
 
 ## ⛅ 实时天气参考
 {weather_info}
+
+{search_info}
 
 ## 📍 真实地点参考数据 (来自高德地图) - ⚠️ 重要约束
 {poi_info}
@@ -132,6 +136,7 @@ export class LangChainService {
 
 			let weatherInfo = ''
 			let poiInfo = ''
+			let city: string | null = null
 
 			if (lastUserMessage) {
 				// 优先提取目的地城市（匹配"去XX"、"到XX"、"玩XX"等模式）
@@ -141,7 +146,7 @@ export class LangChainService {
 				)
 
 				// 如果没有明确的目的地，尝试匹配任意中文城市名
-				const city = destinationMatch ? destinationMatch[1] : null
+				city = destinationMatch ? destinationMatch[1] : null
 
 				this.logger.log(`用户消息: "${lastUserMessage}"`)
 				this.logger.log(`提取的目的地城市: ${city || '未检测到'}`)
@@ -167,20 +172,39 @@ export class LangChainService {
 				}
 			}
 
-			// 2. 注入天气和POI信息到 System Prompt
-			let finalSystemPrompt = this.systemPrompt.replace(
-				'{weather_info}',
-				weatherInfo || '（暂无具体天气信息，请按一般季节性气候规划）',
-			)
+			// 4. DuckDuckGo 搜索增强
+			let searchInfo = ''
+			if (city) {
+				try {
+					this.logger.log(`🔍 正在使用 DuckDuckGo 搜索 "${city} 旅游攻略"...`)
+					const searchTool = new DuckDuckGoSearch()
+					// 搜索最新的旅游信息
+					const searchResults = await searchTool.invoke(
+						`${city} 旅游攻略 必去景点 美食推荐`,
+					)
+					if (searchResults) {
+						searchInfo = `\n## 🌐 网络搜索实时资讯 (DuckDuckGo)\n${searchResults}\n`
+						this.logger.log(`✅ 搜索成功 (长度: ${searchResults.length})`)
+					}
+				} catch (err) {
+					this.logger.warn(`⚠️ 搜索失败: ${err.message}`)
+				}
+			}
+
+			// 2. 注入各类信息到 System Prompt
+			let finalSystemPrompt = this.systemPrompt
+				.replace(
+					'{weather_info}',
+					weatherInfo || '（暂无具体天气信息，请按一般季节性气候规划）',
+				)
+				.replace('{search_info}', searchInfo) // 注入搜索结果
 
 			if (poiInfo) {
-				console.log('--- Debug POI Info Injection ---', poiInfo)
 				finalSystemPrompt = finalSystemPrompt.replace('{poi_info}', poiInfo)
 			} else {
-				// 如果没有POI数据，明确警告AI
 				finalSystemPrompt = finalSystemPrompt.replace(
 					'{poi_info}',
-					'⚠️ **警告：未能获取到该城市的真实POI数据。请基于你的知识库推荐该城市真实存在的知名地点，但务必确保地点的真实性和准确性。**',
+					'⚠️ **警告：未能获取到该城市的真实POI数据。请优先参考上方的【网络搜索实时资讯】和你的知识库。**',
 				)
 			}
 
