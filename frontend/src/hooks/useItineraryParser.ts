@@ -122,19 +122,29 @@ export function useItineraryParser(content: string): ItineraryParserResult {
 
 					// 让我们重写一下逻辑以确保正确归位
 					// 第一步：将 flat 的 geoResults 映射回 days 结构
+					// 第一步：将 flat 的 geoResults 映射回 days 结构
 					let geoIndex = 0
 					const updatedDays = parsedDays.map((day) => {
-						const validDayLocations = day.locations.filter((loc) => {
+						// 如果是交通详情页，当初没送去Geocode，这里直接跳过，保留原样
+						if (day.day === '往返及城际交通') {
+							return day
+						}
+
+						const updatedLocations = day.locations.map((loc) => {
 							const geo = geoResults[geoIndex++]
 							if (geo && geo.lat && geo.lng) {
 								loc.lat = geo.lat
 								loc.lng = geo.lng
-								return true
+							} else {
+								console.warn(
+									`Geocoding failed for: ${loc.name} (${loc.address})`,
+								)
+								// 即使失败也保留地点，确保前端能显示（只是没地图坐标）
 							}
-							console.warn(`Geocoding failed for: ${loc.name} (${loc.address})`)
-							return false // 过滤掉无效点
+							return loc
 						})
-						return { ...day, locations: validDayLocations }
+
+						return { ...day, locations: updatedLocations }
 					})
 
 					setDays(updatedDays)

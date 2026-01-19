@@ -102,7 +102,7 @@ export const parseMarkdownTable = (content: string): DayItinerary[] => {
 			continue
 		}
 
-		// 1.1 Detect Transport Section (Treat as a special Day)
+		// 1.1 Detect Transport Section
 		const transportMatch = line.match(/#{2,4}\s*.*(?:交通|往返).*/)
 		if (transportMatch && !line.includes('市内')) {
 			if (insideTable) insideTable = false
@@ -111,23 +111,42 @@ export const parseMarkdownTable = (content: string): DayItinerary[] => {
 			continue
 		}
 
-		// 1.2 Parse Transport List Items (if in Transport Day)
+		// 1.2 Detect Accommodation Section
+		const hotelMatch = line.match(/#{2,4}\s*.*(?:住宿|酒店).*/)
+		if (hotelMatch) {
+			if (insideTable) insideTable = false
+			flushCurrentDay()
+			currentDayTitle = '住宿推荐'
+			continue
+		}
+
+		// 1.3 Parse List Items for Transport OR Accommodation
 		if (
-			currentDayTitle === '往返及城际交通' &&
+			(currentDayTitle === '往返及城际交通' ||
+				currentDayTitle === '住宿推荐') &&
 			(line.startsWith('-') || line.startsWith('*'))
 		) {
-			// e.g. - **去程/返程**：推荐具体的 1-2 个真实班次（高铁车次或航班号）。 ¥500
-			// Need robust cost extraction
 			const costMatch = line.match(/(?:¥|￥|约|Cost)\s*(\d+)/i)
 			if (costMatch) {
 				const costVal = costMatch[1]
 				const textContent = line.replace(/[*#\-]/g, '').trim()
-				const nameMatch = textContent.split(/[：:]/)[0] || '交通明细'
+
+				// Better name extraction: Split by colon, but ignore "Price/Cost" labels
+				const parts = textContent.split(/[：:]/)
+				let nameCandidate = parts[0].trim()
+
+				// Filter out garbage names
+				const garbageNames = ['票价', '参考价', '费用', '价格', '预算', '花费']
+				if (garbageNames.some((g) => nameCandidate.includes(g))) {
+					// Likely a price line, not a standalone item. Skip or merge?
+					// For now, let's skip it to avoid "Ticket Price" items
+					continue
+				}
 
 				currentLocations.push({
-					name: nameMatch.trim(),
-					type: 'attraction', // Use attraction style for generic
-					address: textContent, // Full text as address/desc
+					name: nameCandidate,
+					type: currentDayTitle === '住宿推荐' ? 'hotel' : 'transport',
+					address: textContent,
 					cost: costVal,
 					description: textContent,
 				})
