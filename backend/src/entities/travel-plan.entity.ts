@@ -25,10 +25,10 @@ export class TravelPlan {
 	@Column()
 	destination: string
 
-	@Column({ type: 'timestamp', nullable: true })
+	@Column({ nullable: true })
 	startDate?: Date
 
-	@Column({ type: 'timestamp', nullable: true })
+	@Column({ nullable: true })
 	endDate?: Date
 
 	@Column({ nullable: true })
