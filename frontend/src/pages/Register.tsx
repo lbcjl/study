@@ -38,7 +38,20 @@ export default function Register() {
 			}
 		} catch (err: any) {
 			console.error(err)
-			setError(err.response?.data?.message || '注册失败，请稍后重试')
+			const status = err.response?.status
+			const msg = err.response?.data?.message
+
+			if (status === 409) {
+				setError('该邮箱已被注册，请直接登录。')
+			} else {
+				setError(
+					typeof msg === 'string'
+						? msg
+						: Array.isArray(msg)
+							? msg.join(', ')
+							: '注册失败，请检查网络',
+				)
+			}
 		} finally {
 			setLoading(false)
 		}

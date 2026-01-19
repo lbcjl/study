@@ -26,7 +26,22 @@ export default function Login() {
 			navigate('/') // Go to chat
 		} catch (err: any) {
 			console.error(err)
-			setError(err.response?.data?.message || '登录失败，请检查账号密码')
+			const status = err.response?.status
+			const msg = err.response?.data?.message
+
+			if (status === 401) {
+				setError('账号或密码错误，请检查。')
+			} else if (status === 404) {
+				setError('服务未找到，请稍后重试。')
+			} else {
+				setError(
+					typeof msg === 'string'
+						? msg
+						: Array.isArray(msg)
+							? msg.join(', ')
+							: '登录失败，请检查网络或稍后重试',
+				)
+			}
 		} finally {
 			setLoading(false)
 		}
