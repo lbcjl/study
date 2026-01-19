@@ -95,6 +95,9 @@ export function useItineraryParser(content: string): ItineraryParserResult {
 			}[] = []
 
 			parsedDays.forEach((day, dIndex) => {
+				// 跳过“往返及城际交通”的大交通地理编码，因为它们通常不是具体的单个点
+				if (day.day === '往返及城际交通') return
+
 				day.locations.forEach((loc, lIndex) => {
 					allLocationsToGeo.push({
 						dayIndex: dIndex,
