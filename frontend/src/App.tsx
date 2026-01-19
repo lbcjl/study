@@ -1,12 +1,59 @@
+import {
+	BrowserRouter,
+	Routes,
+	Route,
+	Navigate,
+	Outlet,
+} from 'react-router-dom'
+import { AuthProvider, useAuth } from './context/AuthContext'
 import ChatInterface from './components/ChatInterface'
 import MapTest from './pages/MapTest'
+import Login from './pages/Login'
+import Register from './pages/Register'
+import Profile from './pages/Profile'
 import './App.css'
 
-function App() {
-	// 检查URL参数，如果包含 ?test=map 则显示测试页面
-	const isTestMode = window.location.search.includes('test=map')
+// Loading component
+const Loading = () => (
+	<div
+		style={{
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+			height: '100vh',
+			color: '#64748b',
+		}}
+	>
+		加载中...
+	</div>
+)
 
-	return <>{isTestMode ? <MapTest /> : <ChatInterface />}</>
+// Protected Route Wrapper
+const ProtectedRoute = () => {
+	const { isAuthenticated, isLoading } = useAuth()
+	if (isLoading) return <Loading />
+	return isAuthenticated ? <Outlet /> : <Navigate to='/login' replace />
+}
+
+function App() {
+	return (
+		<AuthProvider>
+			<BrowserRouter>
+				<Routes>
+					<Route path='/login' element={<Login />} />
+					<Route path='/register' element={<Register />} />
+
+					<Route element={<ProtectedRoute />}>
+						<Route path='/' element={<ChatInterface />} />
+						<Route path='/profile' element={<Profile />} />
+						<Route path='/test/map' element={<MapTest />} />
+					</Route>
+
+					<Route path='*' element={<Navigate to='/' replace />} />
+				</Routes>
+			</BrowserRouter>
+		</AuthProvider>
+	)
 }
 
 export default App

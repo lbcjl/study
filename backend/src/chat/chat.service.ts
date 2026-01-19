@@ -26,6 +26,7 @@ export class ChatService {
 	async sendMessageStream(
 		conversationId: string | null,
 		userMessage: string,
+		user: any = null,
 	): Promise<{
 		stream: AsyncGenerator<string>
 		conversationId: string
@@ -38,9 +39,12 @@ export class ChatService {
 			conversation = this.conversationRepo.create({
 				title: this.generateTitle(userMessage),
 				messages: [],
+				userId: user ? user.id : null,
 			})
 			await this.conversationRepo.save(conversation)
-			this.logger.log(`创建新会话: ${conversation.id}`)
+			this.logger.log(
+				`创建新会话: ${conversation.id}, User: ${user ? user.email : 'Guest'}`,
+			)
 		} else {
 			// 加载现有会话
 			const foundConversation = await this.conversationRepo.findOne({
@@ -73,7 +77,7 @@ export class ChatService {
 
 		// 调用 LangChain 流式接口
 		this.logger.log(`调用 LangChain Stream API，会话: ${conversation.id}`)
-		const stream = this.langChainService.chatStream(history)
+		const stream = this.langChainService.chatStream(history, user)
 
 		return {
 			stream,
@@ -99,6 +103,7 @@ export class ChatService {
 	async sendMessage(
 		conversationId: string | null,
 		userMessage: string,
+		user: any = null,
 	): Promise<{ conversation: Conversation; assistantMessage: string }> {
 		let conversation: Conversation
 
@@ -107,9 +112,12 @@ export class ChatService {
 			conversation = this.conversationRepo.create({
 				title: this.generateTitle(userMessage),
 				messages: [],
+				userId: user ? user.id : null,
 			})
 			await this.conversationRepo.save(conversation)
-			this.logger.log(`创建新会话: ${conversation.id}`)
+			this.logger.log(
+				`创建新会话: ${conversation.id}, User: ${user ? user.email : 'Guest'}`,
+			)
 		} else {
 			// 加载现有会话
 			const foundConversation = await this.conversationRepo.findOne({
@@ -142,7 +150,7 @@ export class ChatService {
 
 		// 调用 LangChain
 		this.logger.log(`调用 LangChain API，会话: ${conversation.id}`)
-		const assistantReply = await this.langChainService.chat(history)
+		const assistantReply = await this.langChainService.chat(history, user)
 
 		// 保存 AI 回复
 		const assistantMsg = this.messageRepo.create({
@@ -167,8 +175,18 @@ export class ChatService {
 	/**
 	 * 获取所有会话列表
 	 */
-	async getConversations(): Promise<Conversation[]> {
+	/**
+	 * 获取所有会话列表 (仅返回属于当前用户的会话)
+	 */
+	async getConversations(userId: string | null): Promise<Conversation[]> {
+		// 如果是 Guest (userId null)，目前策略是看不到任何历史（或只能看到本地存储的 ids，这里后端简单返回空）
+		// 或者后期可以支持根据 deviceId 查
+		if (!userId) {
+			return []
+		}
+
 		return this.conversationRepo.find({
+			where: { userId },
 			relations: ['messages'],
 			order: { updatedAt: 'DESC' },
 		})
@@ -177,11 +195,18 @@ export class ChatService {
 	/**
 	 * 获取单个会话详情
 	 */
-	async getConversation(id: string): Promise<Conversation> {
+	async getConversation(
+		id: string,
+		userId: string | null = null,
+	): Promise<Conversation> {
 		const conversation = await this.conversationRepo.findOne({
 			where: { id },
 			relations: ['messages'],
 		})
+
+		if (conversation && conversation.userId && conversation.userId !== userId) {
+			throw new NotFoundException(`会话 ${id} 不存在或无权访问`)
+		}
 
 		if (!conversation) {
 			throw new NotFoundException(`会话 ${id} 不存在`)
@@ -193,7 +218,19 @@ export class ChatService {
 	/**
 	 * 删除会话
 	 */
-	async deleteConversation(id: string): Promise<void> {
+	async deleteConversation(
+		id: string,
+		userId: string | null = null,
+	): Promise<void> {
+		// 先检查是否存在且归属
+		const conversation = await this.conversationRepo.findOne({ where: { id } })
+		if (!conversation) {
+			throw new NotFoundException(`会话 ${id} 不存在`)
+		}
+		if (conversation.userId && conversation.userId !== userId) {
+			throw new NotFoundException(`会话 ${id} 不存在或无权操作`)
+		}
+
 		const result = await this.conversationRepo.delete(id)
 		if (result.affected === 0) {
 			throw new NotFoundException(`会话 ${id} 不存在`)

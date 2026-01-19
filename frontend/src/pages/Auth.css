@@ -1,0 +1,130 @@
+/* Auth Pages Styles */
+.auth-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	background: linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 100%);
+	padding: 20px;
+}
+
+.auth-card {
+	background: rgba(255, 255, 255, 0.9);
+	backdrop-filter: blur(12px);
+	border-radius: 24px;
+	padding: 40px;
+	width: 100%;
+	max-width: 400px;
+	box-shadow:
+		0 10px 25px -5px rgba(0, 0, 0, 0.1),
+		0 8px 10px -6px rgba(0, 0, 0, 0.1);
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	transition: transform 0.3s ease;
+}
+
+.auth-card:hover {
+	transform: translateY(-5px);
+	box-shadow:
+		0 20px 25px -5px rgba(0, 0, 0, 0.15),
+		0 10px 10px -5px rgba(0, 0, 0, 0.1);
+}
+
+.auth-title {
+	font-size: 1.8rem;
+	font-weight: 800;
+	text-align: center;
+	margin-bottom: 30px;
+	background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.auth-form {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.form-group {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.form-label {
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: #475569;
+}
+
+.form-input {
+	padding: 12px 16px;
+	border-radius: 12px;
+	border: 2px solid #e2e8f0;
+	background: #f8fafc;
+	font-size: 1rem;
+	transition: all 0.2s;
+	outline: none;
+}
+
+.form-input:focus {
+	border-color: #38bdf8;
+	background: white;
+	box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+}
+
+.auth-button {
+	margin-top: 10px;
+	padding: 14px;
+	border-radius: 12px;
+	border: none;
+	background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+	color: white;
+	font-weight: 700;
+	font-size: 1rem;
+	cursor: pointer;
+	transition:
+		opacity 0.2s,
+		transform 0.1s;
+}
+
+.auth-button:hover {
+	opacity: 0.9;
+	transform: translateY(-1px);
+}
+
+.auth-button:active {
+	transform: translateY(1px);
+}
+
+.auth-button:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.auth-footer {
+	margin-top: 20px;
+	text-align: center;
+	font-size: 0.9rem;
+	color: #64748b;
+}
+
+.auth-link {
+	color: #0284c7;
+	font-weight: 600;
+	text-decoration: none;
+	margin-left: 5px;
+}
+
+.auth-link:hover {
+	text-decoration: underline;
+}
+
+.error-message {
+	padding: 10px;
+	border-radius: 8px;
+	background: #fee2e2;
+	color: #b91c1c;
+	font-size: 0.9rem;
+	text-align: center;
+}

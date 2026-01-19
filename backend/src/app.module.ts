@@ -9,6 +9,9 @@ import { MapModule } from './map/map.module'
 import { Conversation } from './entities/conversation.entity'
 import { Message } from './entities/message.entity'
 import { TravelPlan } from './entities/travel-plan.entity'
+import { UserModule } from './user/user.module'
+import { AuthModule } from './auth/auth.module'
+import { User } from './user/user.entity'
 
 @Module({
 	imports: [
@@ -41,7 +44,7 @@ import { TravelPlan } from './entities/travel-plan.entity'
 					type: 'sqljs',
 					location: process.env.DATABASE_PATH || './database.sqlite',
 					autoSave: true,
-					entities: [Conversation, Message, TravelPlan],
+					entities: [Conversation, Message, TravelPlan, User],
 					synchronize: true,
 					logging: false,
 				}
@@ -52,6 +55,8 @@ import { TravelPlan } from './entities/travel-plan.entity'
 		ChatModule,
 		TravelModule,
 		MapModule,
+		UserModule,
+		AuthModule,
 
 		// Rate Limiting (防刷)
 		ThrottlerModule.forRoot([

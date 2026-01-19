@@ -136,8 +136,31 @@ export class LangChainService {
 	/**
 	 * 使用 LangChain 调用通义千问 API (流式响应)
 	 */
-	async *chatStream(messages: LangChainMessage[]): AsyncGenerator<string> {
+	async *chatStream(
+		messages: LangChainMessage[],
+		user?: any,
+	): AsyncGenerator<string> {
 		try {
+			// 0. 构建用户偏好上下文
+			let userContextPrompt = ''
+			if (user && user.preferences) {
+				const p = user.preferences
+				const parts: string[] = []
+				if (p.nickname) parts.push(`用户昵称: ${p.nickname}`)
+				if (p.homeCity) parts.push(`常居城市: ${p.homeCity}`)
+				if (p.budgetRange && p.budgetRange !== '不限')
+					parts.push(`预算偏好: ${p.budgetRange}`)
+				if (p.travelStyle) parts.push(`旅行风格: ${p.travelStyle}`)
+				if (p.dietary && p.dietary.length > 0)
+					parts.push(`饮食偏好: ${p.dietary.join(', ')}`)
+				if (p.interests && p.interests.length > 0)
+					parts.push(`兴趣标签: ${p.interests.join(', ')}`)
+
+				if (parts.length > 0) {
+					userContextPrompt = `\n## 👤 用户个性化偏好 (请严格遵守)\n${parts.join('\n')}\n请在生成方案时特别关照上述偏好。例如：如果用户不吃辣，请避免推荐川湘菜；如果用户喜欢自然风光，请多安排户外景点。`
+				}
+			}
+
 			// 1. 简单的意图识别：提取目的地以获取天气和POI
 			const reversedMessages = messages.slice().reverse()
 
@@ -284,6 +307,11 @@ export class LangChainService {
 				)
 				.replace('{search_info}', searchInfo) // 注入搜索结果
 
+			// 注入用户偏好
+			if (userContextPrompt) {
+				finalSystemPrompt += userContextPrompt
+			}
+
 			if (poiInfo) {
 				finalSystemPrompt = finalSystemPrompt.replace('{poi_info}', poiInfo)
 			} else {
@@ -389,10 +417,10 @@ export class LangChainService {
 	/**
 	 * 使用 LangChain 调用通义千问 API (非流式)
 	 */
-	async chat(messages: LangChainMessage[]): Promise<string> {
+	async chat(messages: LangChainMessage[], user?: any): Promise<string> {
 		// 复用流式逻辑，但收集所有 chunks 后返回完整内容
 		let fullResponse = ''
-		for await (const chunk of this.chatStream(messages)) {
+		for await (const chunk of this.chatStream(messages, user)) {
 			fullResponse += chunk
 		}
 		return fullResponse

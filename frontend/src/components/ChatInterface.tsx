@@ -145,6 +145,12 @@ export default function ChatInterface() {
 							</p>
 							<div className='flex flex-wrap justify-center gap-3'>
 								<button
+									onClick={() => handleSendMessage('我想去日本京都旅游5天')}
+									className='btn btn-secondary glass-card px-6 py-3 hover:bg-white'
+								>
+									🌸 京都赏樱 5日游
+								</button>
+								<button
 									onClick={() =>
 										handleSendMessage('帮我规划上海周末游，预算3000元')
 									}
@@ -172,6 +178,33 @@ export default function ChatInterface() {
 							conversation ? '继续规划您的行程...' : '例如：下周去三亚玩4天...'
 						}
 					/>
+					{/* Re-plan Quick Action */}
+					{latestItineraryContent && !isLoading && (
+						<div className='absolute -top-10 left-0 right-0 flex justify-center'>
+							<button
+								onClick={() =>
+									handleSendMessage(
+										'我对当前的行程不太满意，请重新规划一下，换一些推荐地点',
+									)
+								}
+								className='bg-white/90 backdrop-blur text-sm text-primary shadow-md border border-primary/20 rounded-full px-4 py-1.5 flex items-center gap-2 hover:bg-primary hover:text-white transition-all transform hover:scale-105'
+							>
+								<svg
+									width='16'
+									height='16'
+									viewBox='0 0 24 24'
+									fill='none'
+									stroke='currentColor'
+									strokeWidth='2'
+								>
+									<path d='M23 4v6h-6'></path>
+									<path d='M1 20v-6h6'></path>
+									<path d='M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15'></path>
+								</svg>
+								不满意？重新生成
+							</button>
+						</div>
+					)}
 				</div>
 			</div>
 

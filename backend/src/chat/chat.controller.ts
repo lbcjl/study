@@ -10,9 +10,11 @@ import {
 	Logger,
 	Res,
 } from '@nestjs/common'
-import { Response } from 'express'
+import { Response, Request } from 'express'
 import { ChatService } from './chat.service'
 import { SendMessageDto } from './dto/send-message.dto'
+import { UseGuards, Req } from '@nestjs/common'
+import { OptionalJwtAuthGuard } from '../auth/optional-jwt.guard'
 
 @Controller('chat')
 export class ChatController {
@@ -29,15 +31,18 @@ export class ChatController {
 	 * POST /api/chat/message
 	 */
 	@Post('message')
+	@UseGuards(OptionalJwtAuthGuard)
 	@HttpCode(HttpStatus.OK)
-	async sendMessage(@Body() dto: SendMessageDto) {
+	async sendMessage(@Body() dto: SendMessageDto, @Req() req: any) {
+		const user = req.user
 		this.logger.log(
-			`收到消息: 会话=${dto.conversationId || '新会话'}, 内容="${dto.content.substring(0, 50)}..."`,
+			`收到消息: 会话=${dto.conversationId || '新会话'}, 用户=${user?.email || 'Guest'}, 内容="${dto.content.substring(0, 50)}..."`,
 		)
 
 		const result = await this.chatService.sendMessage(
 			dto.conversationId || null,
 			dto.content,
+			user,
 		)
 
 		return {
@@ -52,9 +57,15 @@ export class ChatController {
 	 * POST /api/chat/stream
 	 */
 	@Post('stream')
-	async sendMessageStream(@Body() dto: SendMessageDto, @Res() res: Response) {
+	@UseGuards(OptionalJwtAuthGuard)
+	async sendMessageStream(
+		@Body() dto: SendMessageDto,
+		@Res() res: Response,
+		@Req() req: any,
+	) {
+		const user = req.user
 		this.logger.log(
-			`收到流式请求: 会话=${dto.conversationId || '新会话'}, 内容="${dto.content.substring(0, 50)}..."`,
+			`收到流式请求: 会话=${dto.conversationId || '新会话'}, 用户=${user?.email || 'Guest'}, 内容="${dto.content.substring(0, 50)}..."`,
 		)
 
 		try {
@@ -62,6 +73,7 @@ export class ChatController {
 				await this.chatService.sendMessageStream(
 					dto.conversationId || null,
 					dto.content,
+					user,
 				)
 
 			// 设置响应头，告诉客户端这是一个流
@@ -92,8 +104,10 @@ export class ChatController {
 	 * GET /api/chat/conversations
 	 */
 	@Get('conversations')
-	async getConversations() {
-		return this.chatService.getConversations()
+	@UseGuards(OptionalJwtAuthGuard)
+	async getConversations(@Req() req: any) {
+		const user = req.user
+		return this.chatService.getConversations(user ? user.userId : null)
 	}
 
 	/**
@@ -101,8 +115,10 @@ export class ChatController {
 	 * GET /api/chat/:id
 	 */
 	@Get(':id')
-	async getConversation(@Param('id') id: string) {
-		return this.chatService.getConversation(id)
+	@UseGuards(OptionalJwtAuthGuard)
+	async getConversation(@Param('id') id: string, @Req() req: any) {
+		const user = req.user
+		return this.chatService.getConversation(id, user ? user.userId : null)
 	}
 
 	/**
@@ -121,8 +137,10 @@ export class ChatController {
 	 * DELETE /api/chat/:id
 	 */
 	@Delete(':id')
+	@UseGuards(OptionalJwtAuthGuard)
 	@HttpCode(HttpStatus.NO_CONTENT)
-	async deleteConversation(@Param('id') id: string) {
-		await this.chatService.deleteConversation(id)
+	async deleteConversation(@Param('id') id: string, @Req() req: any) {
+		const user = req.user
+		await this.chatService.deleteConversation(id, user ? user.userId : null)
 	}
 }
