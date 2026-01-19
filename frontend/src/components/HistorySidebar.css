@@ -167,7 +167,7 @@
 	color: #ef4444;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 640px) {
 	/* Show delete button always on mobile (no hover) */
 	.delete-btn {
 		opacity: 1 !important;

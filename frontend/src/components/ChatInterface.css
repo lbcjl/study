@@ -209,7 +209,7 @@
 	}
 }
 
-@media (max-width: 768px) {
+@media (max-width: 640px) {
 	.chat-layout {
 		display: block; /* Disable grid for mobile manual toggle */
 		padding: 0;
