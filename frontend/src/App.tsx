@@ -28,11 +28,20 @@ const Loading = () => (
 	</div>
 )
 
+import PreferenceReminder from './components/PreferenceReminder'
+
 // Protected Route Wrapper
 const ProtectedRoute = () => {
 	const { isAuthenticated, isLoading } = useAuth()
 	if (isLoading) return <Loading />
-	return isAuthenticated ? <Outlet /> : <Navigate to='/login' replace />
+	return isAuthenticated ? (
+		<>
+			<PreferenceReminder />
+			<Outlet />
+		</>
+	) : (
+		<Navigate to='/login' replace />
+	)
 }
 
 function App() {

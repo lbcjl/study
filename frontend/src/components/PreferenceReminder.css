@@ -1,0 +1,122 @@
+.preference-reminder {
+	position: fixed;
+	bottom: 24px;
+	right: 24px;
+	z-index: 1000;
+	background: rgba(255, 255, 255, 0.95);
+	backdrop-filter: blur(10px);
+	border: 1px solid rgba(226, 232, 240, 0.8);
+	border-radius: 16px;
+	padding: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 20px;
+	box-shadow:
+		0 10px 25px -5px rgba(0, 0, 0, 0.1),
+		0 8px 10px -6px rgba(0, 0, 0, 0.1);
+	animation: slideInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+	max-width: 400px;
+	width: calc(100% - 48px);
+}
+
+.reminder-content {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.reminder-icon {
+	font-size: 24px;
+	background: #e0f2fe;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	color: #0284c7;
+}
+
+.reminder-text strong {
+	display: block;
+	font-size: 0.95rem;
+	color: #0f172a;
+	margin-bottom: 2px;
+}
+
+.reminder-text p {
+	font-size: 0.8rem;
+	color: #64748b;
+	margin: 0;
+}
+
+.reminder-actions {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.btn-action {
+	background: #0ea5e9;
+	color: white;
+	border: none;
+	padding: 8px 16px;
+	border-radius: 20px;
+	font-size: 0.85rem;
+	font-weight: 600;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: all 0.2s;
+}
+
+.btn-action:hover {
+	background: #0284c7;
+	transform: translateY(-1px);
+	box-shadow: 0 4px 6px -1px rgba(14, 165, 233, 0.2);
+}
+
+.btn-close {
+	background: transparent;
+	border: none;
+	color: #94a3b8;
+	cursor: pointer;
+	padding: 4px;
+	font-size: 1.1rem;
+	transition: color 0.2s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.btn-close:hover {
+	color: #64748b;
+}
+
+@keyframes slideInUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@media (max-width: 640px) {
+	.preference-reminder {
+		bottom: 80px; /* Avoid mobile nav or keyboard */
+		left: 16px;
+		right: 16px;
+		width: auto;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 16px;
+	}
+
+	.reminder-actions {
+		width: 100%;
+		justify-content: flex-end;
+	}
+}
