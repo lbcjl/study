@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ChatController } from './chat.controller'
 import { ChatService } from './chat.service'
-import { QwenService } from './qwen.service'
+import { AIService } from './ai.service'
 import { LangChainService } from './langchain.service'
 import { Conversation } from '../entities/conversation.entity'
 import { Message } from '../entities/message.entity'
@@ -15,14 +15,14 @@ import { GaodeService } from './gaode.service'
 	controllers: [ChatController],
 	providers: [
 		ChatService,
-		QwenService,
+		AIService,
 		LangChainService,
 		WeatherService,
 		GaodeService,
 	],
 	exports: [
 		ChatService,
-		QwenService,
+		AIService,
 		LangChainService,
 		WeatherService,
 		GaodeService,

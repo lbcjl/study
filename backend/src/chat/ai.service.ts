@@ -26,8 +26,8 @@ export interface QwenResponse {
 }
 
 @Injectable()
-export class QwenService {
-	private readonly logger = new Logger(QwenService.name)
+export class AIService {
+	private readonly logger = new Logger(AIService.name)
 	private readonly apiKey: string
 	private readonly model: string
 	private readonly apiUrl =
@@ -103,16 +103,22 @@ export class QwenService {
 请确保方案实用、可操作，预算合理且透明。`
 
 	constructor(private configService: ConfigService) {
-		const apiKey = this.configService.get<string>('QWEN_API_KEY')
+		// 支持新旧配置格式，实现向后兼容
+		const apiKey =
+			this.configService.get<string>('AI_API_KEY') ||
+			this.configService.get<string>('QWEN_API_KEY')
 
 		if (!apiKey) {
 			throw new Error(
-				'未配置 QWEN_API_KEY，请在 .env 文件中设置阿里云通义千问 API Key'
+				'未配置 AI API Key，请在 .env 文件中设置 AI_API_KEY（或旧的 QWEN_API_KEY）',
 			)
 		}
 
 		this.apiKey = apiKey
-		this.model = this.configService.get<string>('QWEN_MODEL') || 'qwen-turbo'
+		this.model =
+			this.configService.get<string>('AI_MODEL') ||
+			this.configService.get<string>('QWEN_MODEL') ||
+			'qwen-turbo'
 
 		// 创建 Axios 实例
 		this.client = axios.create({
@@ -124,7 +130,7 @@ export class QwenService {
 			timeout: 60000, // 60秒超时
 		})
 
-		this.logger.log(`🤖 通义千问服务已初始化，模型: ${this.model}`)
+		this.logger.log(`🤖 AI 服务已初始化，模型: ${this.model}`)
 	}
 
 	async chat(messages: QwenMessage[]): Promise<string> {
@@ -172,7 +178,7 @@ export class QwenService {
 
 				const errorMsg = error.response?.data?.message || error.message
 				this.logger.error(
-					`API 错误详情: ${JSON.stringify(error.response?.data)}`
+					`API 错误详情: ${JSON.stringify(error.response?.data)}`,
 				)
 				throw new Error(`API 调用失败: ${errorMsg}`)
 			}
@@ -186,7 +192,7 @@ export class QwenService {
 	 * 返回一个生成器，逐步生成文本
 	 */
 	async *chatStream(
-		messages: QwenMessage[]
+		messages: QwenMessage[],
 	): AsyncGenerator<string, void, unknown> {
 		try {
 			// 添加系统提示词
@@ -212,7 +218,7 @@ export class QwenService {
 				},
 				{
 					responseType: 'stream',
-				}
+				},
 			)
 
 			// 处理流式响应
