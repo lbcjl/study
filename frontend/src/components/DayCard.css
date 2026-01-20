@@ -223,7 +223,8 @@
 .extra-label {
 	color: var(--text-muted);
 	font-weight: 600;
-	width: 50px; /* Fixed width for alignment */
+	width: 65px; /* Fixed width for alignment, increased to prevent wrap */
+	white-space: nowrap;
 	flex-shrink: 0;
 }
 

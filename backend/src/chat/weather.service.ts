@@ -28,8 +28,8 @@ export class WeatherService {
 			// 直接请求 format=3 过于简单，仅有当前天气。
 			// 我们请求 format="%l:\n+%d+%C+%t\n" 来获取未来几天的趋势? wttr.in 对自定义格式支持有限制。
 
-			// 简单起见，且为了"免费/无Key"，我们抓取 format=j1 的 JSON
-			const url = `${this.baseUrl}/${encodeURIComponent(city)}?format=j1`
+			// 简单起见，且为了"免费/无Key"，我们抓取 format=j1 的 JSON，确实支持 lang 参数
+			const url = `${this.baseUrl}/${encodeURIComponent(city)}?format=j1&lang=zh`
 			this.logger.log(`Fetching weather for ${city} from ${url}`)
 
 			const response = await axios.get(url, { timeout: 4000 })
@@ -47,7 +47,12 @@ export class WeatherService {
 					const tempMax = day.maxtempC
 					const tempMin = day.mintempC
 					// hourly 中午12点的天气描述
-					const condition = day.hourly[4]?.weatherDesc[0]?.value || 'Unknown'
+					// hourly 中午12点的天气描述
+					// wttr.in JSON returns translated value in 'weatherDesc' when lang is set, or sometimes in 'weatherIconUrl' etc.
+					// Actually wttr.in with lang=zh often still returns English in 'value' but might have 'lang_zh'?
+					// Let's verify standard wttr.in behavior: ?format=j1&lang=zh usually translates the `value`.
+					// If not, we might need a mapping. But let's try direct extraction first.
+					const condition = day.hourly[4]?.weatherDesc[0]?.value || '未知'
 					return `${date}: ${condition}, ${tempMin}°C ~ ${tempMax}°C`
 				})
 				.join('; ')

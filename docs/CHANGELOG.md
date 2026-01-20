@@ -325,6 +325,16 @@
 - **排版优化**: 优化了标题、列表、粗体的显示效果，提升阅读体验
 - **无缝衔接**: 地图组件与新渲染的 Markdown 内容完美融合
 
+## [2026-01-18 16:00] Bubble Width Fix
+
+- **UI**: Optimized `CompactItineraryView` to be more concise.
+  - Limited display to the first 3 days with a "View More" indicator.
+  - Reduced vertical spacing and truncated long description text (max 1 line) to prevent the chat bubble from taking up too much screen space.
+- **UI**: Fixed Chat Bubble overflow issue. Added `max-width: 280px` constraint to `CompactItineraryView` to ensure it fits strictly within the left chat panel border, preventing horizontal overflow.
+- **UI**: Further reduced `CompactItineraryView` width to `240px` based on user feedback to ensure it fits comfortably within the chat layout.
+- **UI**: Fixed wrapping issue for "Highlights" and "Recommended" labels in `DayCard`. Increased label width and enforced no-wrap to ensure neat alignment.
+- **I18n**: Fixed issue where weather information was displayed in English. Updated the AI system prompt to enforce translation of weather conditions (e.g., "Cloudy" -> "多云") to Chinese.
+
 ## [2026-01-18 16:30] Gaode API & Process Cleanup
 
 - **Fixed**: `GaodeService` search logic.

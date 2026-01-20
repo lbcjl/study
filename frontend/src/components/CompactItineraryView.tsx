@@ -19,7 +19,7 @@ export default function CompactItineraryView({
 	return (
 		<div className='compact-itinerary-view'>
 			<div className='compact-list'>
-				{days.map((day, idx) => (
+				{days.slice(0, 3).map((day, idx) => (
 					<div key={idx} className='compact-day-item'>
 						<div className='day-badge'>{day.day.replace('Day ', 'D')}</div>
 						<div className='day-content'>
@@ -41,6 +41,18 @@ export default function CompactItineraryView({
 						</div>
 					</div>
 				))}
+				{days.length > 3 && (
+					<div
+						style={{
+							textAlign: 'center',
+							fontSize: '12px',
+							color: '#9ca3af',
+							paddingTop: '4px',
+						}}
+					>
+						... 还有 {days.length - 3} 天行程
+					</div>
+				)}
 			</div>
 			<div className='compact-footer'>详情已在右侧面板展开 👉</div>
 		</div>
