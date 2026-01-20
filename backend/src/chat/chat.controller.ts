@@ -111,7 +111,7 @@ export class ChatController {
 	@UseGuards(OptionalJwtAuthGuard)
 	async getConversations(@Req() req: any) {
 		const user = req.user
-		return this.chatService.getConversations(user ? user.userId : null)
+		return this.chatService.getConversations(user ? user.id : null)
 	}
 
 	/**
@@ -122,7 +122,7 @@ export class ChatController {
 	@UseGuards(OptionalJwtAuthGuard)
 	async getConversation(@Param('id') id: string, @Req() req: any) {
 		const user = req.user
-		return this.chatService.getConversation(id, user ? user.userId : null)
+		return this.chatService.getConversation(id, user ? user.id : null)
 	}
 
 	/**
@@ -145,6 +145,6 @@ export class ChatController {
 	@HttpCode(HttpStatus.NO_CONTENT)
 	async deleteConversation(@Param('id') id: string, @Req() req: any) {
 		const user = req.user
-		await this.chatService.deleteConversation(id, user ? user.userId : null)
+		await this.chatService.deleteConversation(id, user ? user.id : null)
 	}
 }
