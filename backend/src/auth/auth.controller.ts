@@ -8,6 +8,7 @@ import {
 	Put,
 } from '@nestjs/common'
 import { AuthGuard } from '@nestjs/passport'
+import { Throttle } from '@nestjs/throttler'
 import { AuthService } from './auth.service'
 import { UserService } from '../user/user.service'
 
@@ -18,12 +19,14 @@ export class AuthController {
 		private userService: UserService,
 	) {}
 
+	@Throttle({ default: { limit: 5, ttl: 60000 } })
 	@UseGuards(AuthGuard('local'))
 	@Post('login')
 	async login(@Request() req) {
 		return this.authService.login(req.user)
 	}
 
+	@Throttle({ default: { limit: 5, ttl: 60000 } })
 	@Post('register')
 	async register(@Body() registerDto: any) {
 		return this.authService.register(registerDto)

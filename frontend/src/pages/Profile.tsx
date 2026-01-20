@@ -31,7 +31,7 @@ export default function Profile() {
 	const { user, updateUser, logout } = useAuth()
 	const navigate = useNavigate()
 	const [loading, setLoading] = useState(false)
-	const [success, setSuccess] = useState('')
+	const [showSuccessModal, setShowSuccessModal] = useState(false)
 
 	// Local state for form
 	const [nickname, setNickname] = useState(user?.nickname || '')
@@ -39,9 +39,15 @@ export default function Profile() {
 	const [budgetRange, setBudgetRange] = useState(
 		user?.preferences?.budgetRange || '不限',
 	)
-	const [travelStyle, setTravelStyle] = useState(
-		user?.preferences?.travelStyle || '休闲',
-	)
+
+	// Initialize travelStyle strictly as array, handling legacy string data
+	const [travelStyle, setTravelStyle] = useState<string[]>(() => {
+		const pref = user?.preferences?.travelStyle
+		if (Array.isArray(pref)) return pref
+		if (typeof pref === 'string' && pref) return [pref]
+		return ['休闲']
+	})
+
 	const [dietary, setDietary] = useState<string[]>(
 		user?.preferences?.dietary || [],
 	)
@@ -54,7 +60,17 @@ export default function Profile() {
 			setNickname(user.nickname || '')
 			setHomeCity(user.preferences?.homeCity || '')
 			setBudgetRange(user.preferences?.budgetRange || '不限')
-			setTravelStyle(user.preferences?.travelStyle || '休闲')
+
+			// Re-initialize logic for useEffect updates
+			const pref = user.preferences?.travelStyle
+			if (Array.isArray(pref)) {
+				setTravelStyle(pref)
+			} else if (typeof pref === 'string' && pref) {
+				setTravelStyle([pref])
+			} else {
+				setTravelStyle(['休闲'])
+			}
+
 			setDietary(user.preferences?.dietary || [])
 			setInterests(user.preferences?.interests || [])
 		}
@@ -74,29 +90,24 @@ export default function Profile() {
 
 	const handleSave = async () => {
 		setLoading(true)
-		setSuccess('')
 		try {
 			const preferences = {
 				homeCity,
 				budgetRange,
-				travelStyle,
+				travelStyle, // Now sending array
 				dietary,
 				interests,
 			}
 
 			const payload = { preferences }
-			// Note: Nickname update logic could be added to backend too, assuming backend supports it in same endpoint or separate
-			// For now, let's assume updateProfile endpoint handles preferences.
-			// If we want to update nickname, we might need to adjust backend.
 
 			await axios.put('/api/auth/profile', payload)
 
 			// Update local context
 			updateUser({ ...user!, nickname, preferences })
-			setSuccess('保存成功！AI 将根据您的偏好为您规划行程。')
 
-			// Navigate back after short delay or let user choose
-			setTimeout(() => setSuccess(''), 3000)
+			// Show Success Modal
+			setShowSuccessModal(true)
 		} catch (err) {
 			console.error(err)
 			alert('保存失败，请检查网络')
@@ -108,6 +119,11 @@ export default function Profile() {
 	const handleLogout = () => {
 		logout()
 		navigate('/login')
+	}
+
+	const handleCloseModal = () => {
+		setShowSuccessModal(false)
+		navigate('/') // Optional: navigate back to home after save
 	}
 
 	return (
@@ -140,18 +156,96 @@ export default function Profile() {
 					</button>
 				</div>
 
-				{success && (
+				{/* Success Modal Overlay */}
+				{showSuccessModal && (
 					<div
 						style={{
-							background: '#dcfce7',
-							color: '#166534',
-							padding: '10px',
-							borderRadius: '8px',
-							marginBottom: '10px',
-							textAlign: 'center',
+							position: 'fixed',
+							top: 0,
+							left: 0,
+							right: 0,
+							bottom: 0,
+							zIndex: 1000,
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							backgroundColor: 'rgba(0, 0, 0, 0.5)',
+							backdropFilter: 'blur(4px)',
 						}}
+						className='animate-fade-in'
 					>
-						{success}
+						<div
+							style={{
+								background: 'white',
+								borderRadius: '24px',
+								padding: '40px',
+								maxWidth: '400px',
+								width: '90%',
+								boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+								textAlign: 'center',
+								border: '1px solid #f1f5f9',
+							}}
+							className='animate-slide-up'
+						>
+							<div
+								style={{
+									width: '80px',
+									height: '80px',
+									background: '#dcfce7',
+									borderRadius: '50%',
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center',
+									margin: '0 auto 24px',
+								}}
+							>
+								<span style={{ fontSize: '40px' }}>🎉</span>
+							</div>
+							<h3
+								style={{
+									fontSize: '1.5rem',
+									fontWeight: 'bold',
+									color: '#1e293b',
+									marginBottom: '12px',
+								}}
+							>
+								保存成功！
+							</h3>
+							<p
+								style={{
+									color: '#64748b',
+									marginBottom: '32px',
+									lineHeight: '1.6',
+								}}
+							>
+								您的旅行偏好已更新，AI 现在更了解您了。
+							</p>
+							<button
+								onClick={handleCloseModal}
+								style={{
+									width: '100%',
+									background:
+										'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+									color: 'white',
+									padding: '16px',
+									borderRadius: '16px',
+									border: 'none',
+									fontSize: '1.1rem',
+									fontWeight: '600',
+									cursor: 'pointer',
+									boxShadow: '0 10px 15px -3px rgba(16, 185, 129, 0.2)',
+									transition: 'transform 0.1s',
+								}}
+								onMouseEnter={(e) =>
+									(e.currentTarget.style.transform = 'scale(1.02)')
+								}
+								onMouseLeave={(e) =>
+									(e.currentTarget.style.transform = 'scale(1)')
+								}
+							>
+								好的，去规划行程
+							</button>
+						</div>
 					</div>
 				)}
 
@@ -261,7 +355,7 @@ export default function Profile() {
 						</div>
 
 						<div className='form-group' style={{ marginTop: '15px' }}>
-							<label style={labelStyle}>旅行风格</label>
+							<label style={labelStyle}>旅行风格 (多选)</label>
 							<div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
 								{[
 									'休闲放松',
@@ -274,14 +368,21 @@ export default function Profile() {
 									<button
 										key={style}
 										type='button'
-										onClick={() => setTravelStyle(style)}
+										onClick={() =>
+											toggleItem(travelStyle, setTravelStyle, style)
+										}
 										style={{
 											padding: '6px 12px',
 											borderRadius: '20px',
-											border: `1px solid ${travelStyle === style ? '#0ea5e9' : '#cbd5e1'}`,
-											background: travelStyle === style ? '#e0f2fe' : 'white',
-											color: travelStyle === style ? '#0284c7' : '#64748b',
+											border: `1px solid ${travelStyle.includes(style) ? '#0ea5e9' : '#cbd5e1'}`,
+											background: travelStyle.includes(style)
+												? '#e0f2fe'
+												: 'white',
+											color: travelStyle.includes(style)
+												? '#0284c7'
+												: '#64748b',
 											cursor: 'pointer',
+											transition: 'all 0.2s',
 										}}
 									>
 										{style}

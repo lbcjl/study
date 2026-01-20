@@ -8,7 +8,7 @@ import {
 
 export interface UserPreferences {
 	budgetRange?: string // e.g. "500-1000"
-	travelStyle?: string // e.g. "Relaxed", "Adventure"
+	travelStyle?: string[] | string // e.g. ["Relaxed", "Adventure"]
 	dietary?: string[] // e.g. ["No Spicy", "Vegetarian"]
 	interests?: string[] // e.g. ["History", "Nature"]
 	homeCity?: string // e.g. "Beijing"

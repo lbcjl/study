@@ -8,7 +8,7 @@ export interface User {
 	nickname?: string
 	preferences?: {
 		budgetRange?: string
-		travelStyle?: string
+		travelStyle?: string | string[]
 		dietary?: string[]
 		interests?: string[]
 		homeCity?: string

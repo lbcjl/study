@@ -42,7 +42,8 @@
 - [x] 前后端 API 集成 (Verifying)
 - [ ] 错误处理与用户反馈
 - [ ] 性能优化
-- [ ] UI/UX 微调 (Ongoing)
+- [x] UI/UX 微调 (Profile Multi-select & Modal)
+- [x] 智能上下文优化 (Departure City Auto-fill)
 
 ## 功能需求详细说明
 
