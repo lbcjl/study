@@ -167,7 +167,7 @@ IMPORTANT:
 		}
 
 		// 初始化 ChatOpenAI
-		const llm = new ChatOpenAI({
+		this.chatModel = new ChatOpenAI({
 			apiKey: apiKey, // Use 'apiKey' which is passed directly to OpenAI client
 			modelName: modelName,
 			configuration: {
@@ -176,52 +176,6 @@ IMPORTANT:
 			temperature: 0.7, // Hardcoded as per user's instruction
 			streaming: true,
 		})
-
-		// 1. 获取当前时间的工具
-		const timeTool = new DynamicStructuredTool({
-			name: 'get_current_time',
-			description:
-				'获取当前准确的日期和时间。在回答涉及日期的问题时必须调用此工具。',
-			schema: z.object({
-				timezone: z
-					.string()
-					.optional()
-					.describe('Timezone to use (e.g., "Asia/Shanghai")'),
-			}),
-			func: async ({ timezone }) => {
-				const timeStr = new Date().toLocaleString('zh-CN', {
-					timeZone: timezone || 'Asia/Shanghai',
-					hour12: false,
-				})
-				return `当前时间 (${timezone || 'Asia/Shanghai'}): ${timeStr}`
-			},
-		})
-
-		// 2. 网络搜索工具
-		const searchTool = new DuckDuckGoSearch({
-			maxResults: 3,
-			searchOptions: {
-				locale: 'zh-CN',
-			},
-		})
-
-		// 3. 12306 火车票查询工具
-		const trainTool = new DynamicStructuredTool({
-			name: 'search_train_tickets',
-			description:
-				'查询中国国内火车/高铁车票、时刻表和余票。输入：出发地、目的地、日期（YYYY-MM-DD）。如查询不到，请尝试更换日期或检查城市名称。',
-			schema: z.object({
-				from: z.string().describe('出发城市或车站名，如：北京、上海虹桥'),
-				to: z.string().describe('到达城市或车站名，如：济南、广州南'),
-				date: z.string().describe('出发日期，格式：YYYY-MM-DD'),
-			}),
-			func: async ({ from, to, date }) => {
-				return await this.trainService.searchTickets(from, to, date)
-			},
-		})
-
-		// 绑定工具到 LLM
-		this.chatModel = llm.bindTools([timeTool, searchTool, trainTool]) as any
 
 		this.logger.log(
 			`🧠 LangChain 服务已初始化 | 模型: ${modelName} | 端点: ${baseURL}`,
@@ -526,8 +480,38 @@ IMPORTANT:
 			// 动态引入 TimeTool
 			const { TimeTool } = await import('./tools/time.tool')
 
+			// 1. 火车票工具
+			const trainTool = new DynamicStructuredTool({
+				name: 'search_train_tickets',
+				description:
+					'查询中国国内火车/高铁车票、时刻表和余票。输入：出发地、目的地、日期（YYYY-MM-DD）。如查询不到，请尝试更换日期或检查城市名称。',
+				schema: z.object({
+					from: z.string().describe('出发城市或车站名，如：北京、上海虹桥'),
+					to: z.string().describe('到达城市或车站名，如：济南、广州南'),
+					date: z.string().describe('出发日期，格式：YYYY-MM-DD'),
+				}),
+				func: async ({ from, to, date }) => {
+					return await this.trainService.searchTickets(from, to, date)
+				},
+			})
+
+			// 2. 搜索工具
+			const searchTool = new DuckDuckGoSearch({
+				maxResults: 3,
+				searchOptions: {
+					locale: 'zh-CN',
+				},
+			})
+
 			// Pass dynamic timezone to TimeTool
-			const tools = [new Calculator(), new TimeTool(timezone)]
+			// 3. 汇总所有工具
+			const tools = [
+				new Calculator(),
+				new TimeTool(timezone),
+				trainTool,
+				searchTool,
+			]
+
 			const modelWithTools = this.chatModel.bindTools(tools)
 			const logger = this.logger
 
@@ -592,7 +576,7 @@ IMPORTANT:
 							if (tool) {
 								try {
 									logger.debug('[ToolExec] Executing ' + tool.name + '...')
-									const result = await tool.invoke(toolCall.args)
+									const result = await (tool as any).invoke(toolCall.args)
 									const resultStr = JSON.stringify(result)
 									logger.debug(
 										'[ToolExec] ' +
