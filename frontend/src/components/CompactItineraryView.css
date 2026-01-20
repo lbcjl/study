@@ -1,6 +1,5 @@
 .compact-itinerary-view {
 	margin-top: 12px;
-	border-top: 1px solid rgba(0, 0, 0, 0.05);
 	padding-top: 12px;
 	max-width: 240px; /* Further constrained width */
 }

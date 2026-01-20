@@ -134,20 +134,31 @@ export class TrainService {
 					'User-Agent':
 						'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
 				},
+				timeout: 5000, // Add timeout
 			})
 
 			const data = response.data
+
+			// 检查是否是被拦截返回了 HTML
+			if (typeof data === 'string' && data.includes('<!DOCTYPE html')) {
+				this.logger.warn('12306 returned HTML (possible bot block)')
+				return '12306服务访问受限（反爬虫拦截），无法自动获取车次信息。请建议用户手动查询或参考一般列车时刻。'
+			}
 
 			if (data.status && data.data && data.data.result) {
 				const tickets = this.parseTickets(data.data.result, data.data.map)
 				return JSON.stringify(tickets.slice(0, 10), null, 2) // 返回前10趟车次，避免token过多
 			} else {
 				this.logger.warn(`12306 query failed: ${JSON.stringify(data)}`)
-				return `查询失败或无直达车次。12306返回：${JSON.stringify(data.messages || data.status)}`
+				// Handle specific error messages if available
+				const errorMsg = data.messages
+					? JSON.stringify(data.messages)
+					: '无直达车次或查询失败'
+				return `查询未成功: ${errorMsg}`
 			}
 		} catch (error: any) {
 			this.logger.error(`Error querying 12306: ${error.message}`)
-			return `查询出错: ${error.message}`
+			return `无法连接12306服务: ${error.message}`
 		}
 	}
 

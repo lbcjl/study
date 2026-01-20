@@ -108,40 +108,50 @@ export class GaodeService {
 				this.searchPOI('酒店', city, '100000'), // 100000 是住宿服务
 			])
 
-			// 3. 格式化数据为 Markdown 列表供 AI 阅读
+			// 3. 格式化数据为 Markdown 列表供 AI 阅读 (Token 优化版)
 			let context = `\n**【真实数据参考】高德地图为您找到 ${city} 的以下真实地点（请优先从中选择）：**\n`
+
+			// 辅助函数：精简地址，去除冗余的省市名称以节省 Token
+			const formatAddress = (p: GaodePOI) => {
+				let addr = p.address || ''
+				// 如果地址已经包含行政区名，就不重复加 adname
+				const region = p.adname || ''
+				if (!addr.startsWith(region)) {
+					addr = region + addr
+				}
+				// 只有当省/市名非常见时才保留，一般情况下省略省市名节省 token，除非跨城
+				// 这里简单处理：只保留区+街道，上下文已知是哪个城市
+				return addr
+			}
 
 			if (sights.length > 0) {
 				context += `\n🏞️ **推荐景点**：\n`
-				sights.slice(0, 8).forEach((p) => {
+				// 降噪：只取前 5 个最热门的
+				sights.slice(0, 5).forEach((p) => {
 					const rating = p.biz_ext?.rating ? ` / 评分:${p.biz_ext.rating}` : ''
 					const cost = p.biz_ext?.cost ? ` / 门票:¥${p.biz_ext.cost}` : ''
-					const tel = p.tel ? ` / 电话:${p.tel}` : ''
-					// [Fix] 显式添加 省+市+区 前缀，确保 AI 输出完整地址用于跨城定位
-					const fullAddress = `${p.pname || ''}${p.cityname || ''}${p.adname || ''}${p.address}`
-					context += `- **${p.name}** (${fullAddress})${rating}${cost}${tel}\n`
+					// 移除电话号码以节省 Token
+					context += `- **${p.name}** (${formatAddress(p)})${rating}${cost}\n`
 				})
 			}
 
 			if (foods.length > 0) {
 				context += `\n🥡 **推荐餐厅** (位于${city})：\n`
-				foods.slice(0, 5).forEach((p) => {
+				// 降噪：只取前 3 个
+				foods.slice(0, 3).forEach((p) => {
 					const rating = p.biz_ext?.rating ? ` / 评分:${p.biz_ext.rating}` : ''
 					const cost = p.biz_ext?.cost ? ` / 人均:¥${p.biz_ext.cost}` : ''
-					const tel = p.tel ? ` / 电话:${p.tel}` : ''
-					const fullAddress = `${p.pname || ''}${p.cityname || ''}${p.adname || ''}${p.address}`
-					context += `- **${p.name}** (${fullAddress})${rating}${cost}${tel}\n`
+					context += `- **${p.name}** (${formatAddress(p)})${rating}${cost}\n`
 				})
 			}
 
 			if (hotels.length > 0) {
 				context += `\n🏨 **推荐酒店** (位于${city})：\n`
-				hotels.slice(0, 10).forEach((p) => {
+				// 降噪：只取前 4 个
+				hotels.slice(0, 4).forEach((p) => {
 					const rating = p.biz_ext?.rating ? ` / 评分:${p.biz_ext.rating}` : ''
 					const cost = p.biz_ext?.cost ? ` / 参考价:¥${p.biz_ext.cost}` : ''
-					const tel = p.tel ? ` / 电话:${p.tel}` : ''
-					const fullAddress = `${p.pname || ''}${p.cityname || ''}${p.adname || ''}${p.address}`
-					context += `- **${p.name}** (${fullAddress})${rating}${cost}${tel}\n`
+					context += `- **${p.name}** (${formatAddress(p)})${rating}${cost}\n`
 				})
 			}
 

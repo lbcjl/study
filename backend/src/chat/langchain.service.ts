@@ -590,10 +590,13 @@ IMPORTANT:
 										content: resultStr,
 									})
 								} catch (err) {
-									console.error('Tool execution failed:', err)
+									const errorMsg =
+										err instanceof Error ? err.message : String(err)
+									console.error(`Tool ${tool.name} failed:`, errorMsg)
+									// 返回具体的错误信息给 LLM，以便它知道发生了什么（例如限流）
 									return new ToolMessage({
 										tool_call_id: toolCall.id!,
-										content: 'Error: Execution failed.',
+										content: `Tool execution error: ${errorMsg}. Please try again later or proceed without this information.`,
 									})
 								}
 							}

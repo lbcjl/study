@@ -86,13 +86,6 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
 						</div>
 					)}
 
-					{/* Travel Plan Card */}
-					{isTravelPlan && (
-						<div className='plan-card-container'>
-							<ItinerarySummaryCard content={message.content} />
-						</div>
-					)}
-
 					{/* Main Text Content */}
 					{message.content && (
 						<div className='message-text'>
