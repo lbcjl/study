@@ -581,3 +581,7 @@
 
 - **Frontend Logic**: 更新 `itineraryParser.ts` 和 `useItineraryParser`，正确从 JSON 结构的行程中提取目的地 `city`。
 - **Fix**: 修复地图生成失败或地点定位错误（如通用名称解析到北京）的问题，原因在于 API 请求中缺失城市上下文 (`city: undefined`)。现在地图服务严格限制在目标城市范围内搜索。
+
+## [2026-01-21 08:30] 文档状态同步
+
+- **Docs**: 全面更新 `docs/REQUIREMENTS.md`，将 Phase 1-4 的所有已实现功能标记为完成 `[x]`，以反映当前项目的真实进度。

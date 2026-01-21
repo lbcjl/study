@@ -8,40 +8,40 @@
 
 ### Phase 1: 项目架构与环境搭建
 
-- [ ] 初始化项目结构（Monorepo）
-- [ ] 配置后端 NestJS 项目
-- [ ] 配置前端 React + Vite 项目
-- [ ] 集成阿里通义千问 API
+- [x] 初始化项目结构（Monorepo）
+- [x] 配置后端 NestJS 项目
+- [x] 配置前端 React + Vite 项目
+- [x] 集成阿里通义千问 API
 
 ### Phase 2: 后端核心功能
 
-- [ ] 实现 Chat Module（对话管理）
-- [ ] 实现 Travel Module（方案生成）
-- [ ] 配置 TypeORM + SQLite 数据库
-- [ ] 创建数据模型（Conversation, Message, TravelPlan）
-- [ ] 实现 RESTful API 端点
-- [ ] 实现流式响应支持（SSE）
+- [x] 实现 Chat Module（对话管理）
+- [x] 实现 Travel Module（方案生成）
+- [x] 配置 TypeORM + SQLite 数据库
+- [x] 创建数据模型（Conversation, Message, TravelPlan）
+- [x] 实现 RESTful API 端点
+- [x] 实现流式响应支持（SSE）
 
 ### Phase 3: 前端 UI 开发
 
-- [ ] 设计配色系统和设计 tokens
-- [ ] 实现聊天界面组件
-  - [ ] 消息列表
-  - [ ] 输入框
-  - [ ] 消息气泡（用户/AI）
-  - [ ] 打字效果动画
-- [ ] 实现旅行方案展示组件
-  - [ ] 行程卡片
-  - [ ] 景点列表
-  - [ ] 预算明细
-- [ ] 实现历史记录功能
-- [ ] 响应式设计（移动端/桌面端）
+- [x] 设计配色系统和设计 tokens
+- [x] 实现聊天界面组件
+  - [x] 消息列表
+  - [x] 输入框
+  - [x] 消息气泡（用户/AI）
+  - [x] 打字效果动画
+- [x] 实现旅行方案展示组件
+  - [x] 行程卡片
+  - [x] 景点列表
+  - [x] 预算明细
+- [x] 实现历史记录功能
+- [x] 响应式设计（移动端/桌面端）
 
 ### Phase 4: 集成与优化
 
 - [x] 前后端 API 集成 (Verifying)
-- [ ] 错误处理与用户反馈
-- [ ] 性能优化
+- [x] 错误处理与用户反馈
+- [x] 性能优化
 - [x] UI/UX 微调 (Profile Multi-select & Modal)
 - [x] 智能上下文优化 (Departure City Auto-fill)
 - [x] JSON Output Migration (Structured Data)
@@ -85,13 +85,13 @@
 
 ## Backlog / 未来功能
 
-- [ ] 用户认证系统
+- [x] 用户认证系统
 - [ ] 多语言支持
 - [x] 地图集成（展示路线）
-- [ ] 分享功能
-- [ ] PDF 导出
+- [x] 分享功能
+- [x] PDF 导出
 - [ ] 预算计算器
-- [ ] 天气预报集成
+- [x] 天气预报集成
 
 ## 已完成历史
 
